@@ -75,7 +75,7 @@ Start with localStorage for the MVP, with a storage abstraction layer that allow
 ## ADR-003: Multi-Theme System with CSS Custom Properties
 
 **Date**: 2026-01-28  
-**Status**: Accepted
+**Status**: Accepted ✅ Implemented
 
 ### Context
 The app needs to support multiple themes beyond just light/dark mode to showcase design system skills.
@@ -98,6 +98,36 @@ Implement 5 curated themes using CSS Custom Properties (CSS variables) that are 
 - IE11 doesn't support CSS variables (acceptable trade-off)
 
 **Theme Count**: 5 themes strikes a balance—enough to show systematic design thinking, not so many that it looks unfocused.
+
+### Implementation Details
+
+**Themes Implemented**:
+1. **Lofi Cozy** (default) - Warm browns, muted purples, soft orange accents
+2. **Minimal Light** - Clean whites, subtle grays, high contrast
+3. **Midnight Study** - Deep navy with teal accents, low contrast
+4. **Sakura** - Soft pinks and cream tones, cherry blossom inspired
+5. **Forest Focus** - Earthy greens and wood tones, nature-inspired
+
+**Implementation Approach**:
+- Created `themes.config.ts` with TypeScript interfaces for type safety
+- Used oklch color format for better color manipulation and consistency
+- Custom hook `useThemeSwitcher` manages theme state and application
+- CSS variables applied dynamically via JavaScript to `:root` element
+- 200ms CSS transitions for smooth theme changes
+- Theme selection persisted in localStorage with key `lofi-study:theme`
+- Visual theme selector with color palette previews in header
+
+**Files Created**:
+- `apps/web/src/lib/themes.config.ts` - Theme definitions
+- `apps/web/src/hooks/use-theme-switcher.ts` - Theme management hook
+- `apps/web/src/components/themes/theme-selector.tsx` - Main selector component
+- `apps/web/src/components/themes/theme-preview.tsx` - Theme preview cards
+- `apps/web/src/components/themes/theme-initializer.tsx` - Theme initialization
+
+**Files Modified**:
+- `apps/web/src/components/header.tsx` - Replaced ModeToggle with ThemeSelector
+- `apps/web/src/components/providers.tsx` - Added ThemeInitializer
+- `apps/web/src/index.css` - Added smooth transitions for theme changes
 
 ---
 
@@ -373,6 +403,35 @@ Copy this template when adding new decisions:
 ## Superseded Decisions
 
 None yet. When a decision is superseded, move it here with a note explaining what replaced it and why.
+
+---
+
+## ADR-012: Custom Theme Hook Instead of Extending next-themes
+
+**Date**: 2026-01-28  
+**Status**: Accepted
+
+### Context
+The app already uses `next-themes` for basic light/dark mode. For the multi-theme system, we needed to decide whether to extend next-themes or create a custom solution.
+
+### Decision
+Create a custom `useThemeSwitcher` hook that works alongside next-themes but manages themes independently via CSS custom properties.
+
+### Consequences
+
+**Positive**:
+- Full control over theme application logic
+- No dependency on next-themes limitations
+- Can apply themes via CSS variables without class toggling
+- Simpler API for our specific use case
+- Better performance (no class switching, just CSS variable updates)
+
+**Negative**:
+- Two theme systems coexist (next-themes for system preference, custom for multi-theme)
+- Slightly more code to maintain
+- Need to handle hydration mismatches manually
+
+**Why**: next-themes is designed for light/dark/system themes, not for multiple custom color schemes. Our custom hook gives us the flexibility to apply any theme via CSS variables while still leveraging next-themes for system preference detection if needed in the future.
 
 ---
 

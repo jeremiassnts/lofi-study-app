@@ -124,5 +124,29 @@
   }
   html {
     @apply font-sans;
+    /* Smooth theme transitions */
+    transition: background-color 200ms ease, color 200ms ease;
+  }
+  /* Smooth transitions for theme color changes */
+  :root {
+    transition: 
+      --background 200ms ease,
+      --foreground 200ms ease,
+      --card 200ms ease,
+      --card-foreground 200ms ease,
+      --popover 200ms ease,
+      --popover-foreground 200ms ease,
+      --primary 200ms ease,
+      --primary-foreground 200ms ease,
+      --secondary 200ms ease,
+      --secondary-foreground 200ms ease,
+      --muted 200ms ease,
+      --muted-foreground 200ms ease,
+      --accent 200ms ease,
+      --accent-foreground 200ms ease,
+      --destructive 200ms ease,
+      --border 200ms ease,
+      --input 200ms ease,
+      --ring 200ms ease;
   }
 }
