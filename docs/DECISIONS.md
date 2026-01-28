@@ -435,4 +435,32 @@ Create a custom `useThemeSwitcher` hook that works alongside next-themes but man
 
 ---
 
+## ADR-013: Phase 5 Polish — Toasts, Storage, Error Boundaries
+
+**Date**: 2026-01-28  
+**Status**: Accepted
+
+### Context
+
+Milestone 5 (Polish & Animations) required error handling (task storage, player offline), loading states, and error boundaries. We needed consistent UX for failures and loading.
+
+### Decision
+
+- **Storage**: `setItem` in `lib/storage.ts` now returns `boolean` (success/failure). Callers (e.g. `use-tasks`) check the return and surface failures via Sonner toasts.
+- **Toasts**: Use existing Sonner (Toaster in providers). Toast on task/group storage failure and when the lofi player reports stream offline.
+- **Error boundaries**: Add a single `ErrorBoundary` class component. Wrap each dashboard section (Pomodoro, Tasks, Lofi Player) so a failure in one section doesn’t break the whole page. Fallback offers “Refresh page.”
+- **Loading**: `useTasks` exposes `isLoading`; tasks section shows Skeleton placeholders during initial load. Player Suspense fallback uses Skeleton-based UI instead of plain “Loading player…” text.
+
+### Consequences
+
+**Positive**:
+- Clear feedback when storage or streams fail
+- Isolated section failures
+- Perceived performance via skeletons and consistent loading states
+
+**Negative**:
+- `setItem` return type change; all call sites must tolerate it (we only act on it in `use-tasks`)
+
+---
+
 **Last Updated**: 2026-01-28

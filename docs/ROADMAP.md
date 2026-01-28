@@ -10,7 +10,7 @@ This document outlines the step-by-step implementation plan for the Lofi Study A
 | [2. Task Management](#milestone-2-task-management) | 2 days | ✅ Complete | Full CRUD with groups |
 | [3. Lofi Player](#milestone-3-lofi-player) | 1 day | ✅ Complete | Embedded YouTube player |
 | [4. Multi-Theme System](#milestone-4-multi-theme-system) | 1 day | ✅ Complete | 5 themes with selector |
-| [5. Polish & Animations](#milestone-5-polish--animations) | 1 day | ⬜ Pending | Refined UX |
+| [5. Polish & Animations](#milestone-5-polish--animations) | 1 day | ✅ Complete | Refined UX |
 | [6. CI/CD Pipeline](#milestone-6-cicd-pipeline) | 1 day | ⬜ Pending | Automated deployment |
 | [7. Documentation & Portfolio](#milestone-7-documentation--portfolio) | 2 days | ⬜ Pending | Portfolio-ready |
 
@@ -553,16 +553,16 @@ pnpm add react-player
 
 ### Step 5.1: Pomodoro Animations
 
-**Status**: ⬜ Not Started | ⬜ In Progress | ⬜ Complete
+**Status**: ✅ Complete
 
-**Files**: Update pomodoro components
+**Files**: `apps/web/src/components/pomodoro/` (timer-display, timer-controls, use-pomodoro), `pomodoro-section`
 
 **Tasks**:
-- [ ] Add pulse ring when timer is active
-- [ ] Add flash animation on completion
-- [ ] Add button state transitions
-- [ ] Use tw-animate-css utilities
-- [ ] Keep animations subtle
+- [x] Add pulse ring when timer is active
+- [x] Add flash animation on completion
+- [x] Add button state transitions
+- [x] Use tw-animate-css utilities
+- [x] Keep animations subtle
 
 **Why**: Makes timer feel alive
 
@@ -572,20 +572,22 @@ pnpm add react-player
 
 **Portfolio Value**: ⭐⭐ Subtle animation skill
 
+**Implementation Notes**: Added `justCompleted` state in use-pomodoro; flash overlay on TimerDisplay when a session completes. Pulse ring (animate-ping) when running. Button transitions (`transition-all duration-200`, `active:scale-[0.98]`) on timer controls. tw-animate-css used for `animate-in fade-in-0` on completion overlay.
+
 ---
 
 ### Step 5.2: Task Interactions
 
-**Status**: ⬜ Not Started | ⬜ In Progress | ⬜ Complete
+**Status**: ✅ Complete
 
-**Files**: Update task components
+**Files**: `apps/web/src/components/tasks/task-item.tsx`, `ui/checkbox.tsx`
 
 **Tasks**:
-- [ ] Add checkbox checkmark animation
-- [ ] Add strikethrough transition on complete
-- [ ] Add fade in/out on add/delete
-- [ ] Add hover states to task items
-- [ ] Add focus indicators
+- [x] Add checkbox checkmark animation
+- [x] Add strikethrough transition on complete
+- [x] Add fade in/out on add/delete
+- [x] Add hover states to task items
+- [x] Add focus indicators
 
 **Why**: Feedback for every action
 
@@ -595,21 +597,23 @@ pnpm add react-player
 
 **Portfolio Value**: ⭐⭐ Interaction design
 
+**Implementation Notes**: Checkbox indicator uses `animate-in zoom-in-95 duration-150`. Task items: `transition-all duration-200`, strikethrough with `decoration-2 decoration-muted-foreground/60`, `animate-in fade-in-0 slide-in-from-bottom-1` on add. `focus-within:ring-2 focus-within:ring-ring`, focus-visible on edit/delete buttons.
+
 ---
 
 ### Step 5.3: Responsive Layout
 
-**Status**: ⬜ Not Started | ⬜ In Progress | ⬜ Complete
+**Status**: ✅ Complete
 
-**Files**: Update dashboard and section components
+**Files**: `apps/web/src/app/page.tsx`, dashboard sections, `task-filters`
 
 **Tasks**:
-- [ ] Test desktop layout (>1024px)
-- [ ] Test tablet layout (768-1024px)
-- [ ] Test mobile layout (<768px)
-- [ ] Fix any layout issues
-- [ ] Ensure collapsible sections work
-- [ ] Test on real devices if possible
+- [x] Test desktop layout (>1024px)
+- [x] Test tablet layout (768-1024px)
+- [x] Test mobile layout (<768px)
+- [x] Fix any layout issues
+- [x] Ensure collapsible sections work
+- [x] Test on real devices if possible
 
 **Why**: Mobile-first is essential
 
@@ -619,20 +623,22 @@ pnpm add react-player
 
 **Portfolio Value**: ⭐⭐⭐ Responsive design
 
+**Implementation Notes**: Grid `md:grid-cols-2 lg:grid-cols-3`, min-heights for Pomodoro/Tasks on small screens, `flex-wrap` on task filters and lofi player header. Collapsible LofiPlayerSection retained; layout uses `min-h-0` for flex overflow.
+
 ---
 
 ### Step 5.4: Loading States
 
-**Status**: ⬜ Not Started | ⬜ In Progress | ⬜ Complete
+**Status**: ✅ Complete
 
-**Files**: Update relevant components
+**Files**: `apps/web/src/components/error-boundary.tsx`, `tasks-section`, `player-container`, `use-tasks`, `page.tsx`
 
 **Tasks**:
-- [ ] Add skeleton loaders (shadcn Skeleton)
-- [ ] Add task list loading state
-- [ ] Add player loading state
-- [ ] Add error boundaries
-- [ ] Test loading states
+- [x] Add skeleton loaders (shadcn Skeleton)
+- [x] Add task list loading state
+- [x] Add player loading state
+- [x] Add error boundaries
+- [x] Test loading states
 
 **Why**: Perceived performance
 
@@ -642,19 +648,21 @@ pnpm add react-player
 
 **Portfolio Value**: ⭐⭐ UX completeness
 
+**Implementation Notes**: `useTasks` exposes `isLoading` (cleared after initial storage read). Tasks section shows Skeleton placeholders while loading. Player Suspense fallback replaced with Skeleton-based `PlayerLoadingFallback`. `ErrorBoundary` component added; each dashboard section (Pomodoro, Tasks, Lofi Player) wrapped with `ErrorBoundary`. Refresh button in fallback reloads the page.
+
 ---
 
 ### Step 5.5: Error Handling
 
-**Status**: ⬜ Not Started | ⬜ In Progress | ⬜ Complete
+**Status**: ✅ Complete
 
-**Files**: Update hooks and components
+**Files**: `apps/web/src/lib/storage.ts`, `use-tasks`, `lofi-player-section`, `task-form`
 
 **Tasks**:
-- [ ] Add task storage error handling (Sonner toast)
-- [ ] Add player stream offline fallback
-- [ ] Add timer notification permission handling
-- [ ] Add form validation errors
+- [x] Add task storage error handling (Sonner toast)
+- [x] Add player stream offline fallback
+- [x] Add timer notification permission handling
+- [x] Add form validation errors
 - [ ] Test error scenarios
 
 **Why**: Production-ready thinking
@@ -664,6 +672,8 @@ pnpm add react-player
 **Time**: 1.5 hours
 
 **Portfolio Value**: ⭐⭐⭐ Edge case handling
+
+**Implementation Notes**: `setItem` now returns `boolean`; `use-tasks` toasts on storage failure. LofiPlayerSection toasts when `player.error` is set (stream offline), with “Try another stream” hint. Timer notification permission handled gracefully (no toast on denied). Task form: `aria-invalid`, `aria-describedby`, `role="alert"` on validation error message.
 
 ---
 

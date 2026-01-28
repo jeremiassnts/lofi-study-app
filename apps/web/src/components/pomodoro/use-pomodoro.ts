@@ -15,6 +15,7 @@ export function usePomodoro() {
   const [state, setState] = useState<TimerState>('idle');
   const [timeRemaining, setTimeRemaining] = useState(25 * 60);
   const [config, setConfig] = useState<PomodoroConfig>(DEFAULT_CONFIG);
+  const [justCompleted, setJustCompleted] = useState(false);
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
   const notificationPermission = useRef<NotificationPermission>('default');
 
@@ -26,7 +27,7 @@ export function usePomodoro() {
       setTimeRemaining(savedConfig.focusDuration * 60);
     }
 
-    // Request notification permission
+    // Request notification permission (handled gracefully; no toast on denied to avoid repeat on load)
     if (typeof window !== 'undefined' && 'Notification' in window) {
       Notification.requestPermission().then((permission) => {
         notificationPermission.current = permission;
@@ -78,6 +79,8 @@ export function usePomodoro() {
       
       new Notification(title, { body, icon: '/favicon.ico' });
     }
+
+    setJustCompleted(true);
 
     // Auto-start break or reset
     if (state === 'running' && config.autoStartBreak) {
@@ -184,10 +187,18 @@ export function usePomodoro() {
     return ((total - timeRemaining) / total) * 100;
   }, [state, timeRemaining, config]);
 
+  // Clear completion flash after animation
+  useEffect(() => {
+    if (!justCompleted) return;
+    const id = setTimeout(() => setJustCompleted(false), 600);
+    return () => clearTimeout(id);
+  }, [justCompleted]);
+
   return {
     state,
     timeRemaining,
     config,
+    justCompleted,
     start,
     pause,
     reset,

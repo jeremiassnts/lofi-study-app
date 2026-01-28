@@ -8,6 +8,7 @@ interface TimerDisplayProps {
   progress: number;
   isRunning: boolean;
   isBreak: boolean;
+  justCompleted?: boolean;
 }
 
 export function TimerDisplay({
@@ -16,6 +17,7 @@ export function TimerDisplay({
   progress,
   isRunning,
   isBreak,
+  justCompleted = false,
 }: TimerDisplayProps) {
   const strokeWidth = 8;
   const radius = 120;
@@ -31,7 +33,14 @@ export function TimerDisplay({
       </div>
 
       {/* Circular Timer */}
-      <div className="relative">
+      <div className="relative transition-all duration-300">
+        {/* Completion flash overlay */}
+        {justCompleted && (
+          <div
+            className="absolute inset-0 rounded-full bg-primary/25 animate-in fade-in-0 duration-200"
+            aria-hidden
+          />
+        )}
         <svg
           height={radius * 2}
           width={radius * 2}
@@ -75,9 +84,12 @@ export function TimerDisplay({
           </div>
         </div>
 
-        {/* Pulse Ring when running */}
+        {/* Pulse ring when running — subtle */}
         {isRunning && (
-          <div className="absolute inset-0 rounded-full border-2 border-primary animate-ping opacity-20" />
+          <div
+            className="absolute inset-0 rounded-full border-2 border-primary animate-ping opacity-20"
+            aria-hidden
+          />
         )}
       </div>
 

@@ -27,7 +27,7 @@ export function TimerControls({
   onOpenSettings,
 }: TimerControlsProps) {
   return (
-    <div className="flex flex-col gap-3">
+      <div className="flex flex-col gap-3">
       {/* Primary Controls */}
       <div className="flex items-center justify-center gap-2">
         {/* Start/Pause Button */}
@@ -35,7 +35,7 @@ export function TimerControls({
           <Button
             size="lg"
             onClick={onStart}
-            className="w-32"
+            className="w-32 transition-all duration-200 active:scale-[0.98]"
           >
             <Play className="mr-2 h-4 w-4" />
             {isPaused ? 'Resume' : 'Start'}
@@ -45,7 +45,7 @@ export function TimerControls({
             size="lg"
             variant="secondary"
             onClick={onPause}
-            className="w-32"
+            className="w-32 transition-all duration-200 active:scale-[0.98]"
           >
             <Pause className="mr-2 h-4 w-4" />
             Pause
@@ -58,6 +58,7 @@ export function TimerControls({
             size="lg"
             variant="outline"
             onClick={onReset}
+            className="transition-all duration-200 active:scale-[0.98]"
           >
             <RotateCcw className="mr-2 h-4 w-4" />
             Reset
@@ -73,7 +74,7 @@ export function TimerControls({
             size="sm"
             variant="ghost"
             onClick={onStartBreak}
-            className="text-muted-foreground"
+            className="text-muted-foreground transition-all duration-200 active:scale-[0.98]"
           >
             <Coffee className="mr-2 h-4 w-4" />
             Start Break
@@ -85,7 +86,7 @@ export function TimerControls({
           size="sm"
           variant="ghost"
           onClick={onOpenSettings}
-          className="text-muted-foreground"
+          className="text-muted-foreground transition-all duration-200 active:scale-[0.98]"
         >
           <Settings className="mr-2 h-4 w-4" />
           Settings

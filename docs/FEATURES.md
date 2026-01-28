@@ -220,6 +220,34 @@ Speed up your workflow with keyboard shortcuts.
 
 ---
 
+## ✨ Polish & Animations (Phase 5)
+
+Refined UX from Milestone 5:
+
+### Pomodoro
+- **Pulse ring** when the timer is running
+- **Flash animation** when a focus or break session completes
+- **Button transitions** (scale on press, smooth state changes)
+
+### Tasks
+- **Checkbox checkmark** animation on complete
+- **Strikethrough transition** when marking tasks done
+- **Fade-in** when adding new tasks
+- **Focus indicators** and improved hover states on task items
+
+### Loading & Errors
+- **Skeleton loaders** for task list and lofi player while loading
+- **Error boundaries** around each dashboard section (Pomodoro, Tasks, Player)
+- **Toasts** for storage failures and stream-offline issues
+- **Form validation** with `aria-invalid` and `role="alert"` for accessibility
+
+### Responsive Layout
+- **Desktop** (>1024px): 3-column grid (Pomodoro | Tasks | …)
+- **Tablet** (768–1024px): 2-column layout; filters and player header wrap
+- **Mobile** (<768px): Stacked sections, min-heights, collapsible player
+
+---
+
 ## 💾 Data & Privacy
 
 ### What We Store

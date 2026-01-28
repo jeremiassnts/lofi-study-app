@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { Skeleton } from '@/components/ui/skeleton';
 import { useTasks } from '@/components/tasks/use-tasks';
 import { TaskList } from '@/components/tasks/task-list';
 import { TaskForm } from '@/components/tasks/task-form';
@@ -18,6 +19,7 @@ export function TasksSection() {
     groups,
     filter,
     setFilter,
+    isLoading,
     addTask,
     updateTask,
     deleteTask,
@@ -51,15 +53,26 @@ export function TasksSection() {
           />
 
           <div className="flex-1 overflow-y-auto">
-            <TaskList
-              tasks={filteredTasks}
-              groups={groups}
-              filter={filter}
-              onToggle={toggleTask}
-              onUpdate={updateTask}
-              onDelete={deleteTask}
-              showGroups={true}
-            />
+            {isLoading ? (
+              <div className="space-y-3 p-2">
+                {[1, 2, 3, 4].map((i) => (
+                  <div key={i} className="flex items-center gap-3 p-3 rounded-lg border">
+                    <Skeleton className="h-4 w-4 shrink-0 rounded" />
+                    <Skeleton className="h-4 flex-1 max-w-[80%]" />
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <TaskList
+                tasks={filteredTasks}
+                groups={groups}
+                filter={filter}
+                onToggle={toggleTask}
+                onUpdate={updateTask}
+                onDelete={deleteTask}
+                showGroups={true}
+              />
+            )}
           </div>
         </CardContent>
       </Card>

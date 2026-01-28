@@ -13,17 +13,18 @@ export function PomodoroSection() {
 
   return (
     <>
-      <Card className="h-full">
-        <CardHeader>
+      <Card className="h-full min-h-0 flex flex-col">
+        <CardHeader className="shrink-0">
           <CardTitle>Pomodoro Timer</CardTitle>
         </CardHeader>
-        <CardContent className="flex flex-col items-center gap-6">
+        <CardContent className="flex flex-col items-center gap-6 flex-1 min-h-0">
           <TimerDisplay
             timeRemaining={pomodoro.timeRemaining}
             formatTime={pomodoro.formatTime}
             progress={pomodoro.getProgress()}
             isRunning={pomodoro.isRunning}
             isBreak={pomodoro.isBreak}
+            justCompleted={pomodoro.justCompleted}
           />
           
           <TimerControls

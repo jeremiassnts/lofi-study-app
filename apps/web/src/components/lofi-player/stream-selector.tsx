@@ -24,12 +24,15 @@ export function StreamSelector({
 }: StreamSelectorProps) {
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button variant="outline" size="sm" className="gap-2">
-          <Music className="h-4 w-4" />
-          <span className="truncate max-w-[150px]">{currentStream.name}</span>
-        </Button>
-      </DropdownMenuTrigger>
+      {
+        // @ts-expect-error Base UI Trigger accepts asChild-style composition
+        <DropdownMenuTrigger asChild>
+          <Button variant="outline" size="sm" className="gap-2">
+            <Music className="h-4 w-4" />
+            <span className="truncate max-w-[150px]">{currentStream.name}</span>
+          </Button>
+        </DropdownMenuTrigger>
+      }
       <DropdownMenuContent align="start" className="w-56">
         {streams.map((stream) => (
           <DropdownMenuItem

@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
+import { toast } from 'sonner';
 import { getItem, setItem } from '@/lib/storage';
 import type { Task, Group } from '@/types/task';
 
@@ -16,6 +17,7 @@ export function useTasks() {
   const [tasks, setTasks] = useState<Task[]>([]);
   const [groups, setGroups] = useState<Group[]>(DEFAULT_GROUPS);
   const [filter, setFilter] = useState<string>('all');
+  const [isLoading, setIsLoading] = useState(true);
 
   // Load data from storage on mount
   useEffect(() => {
@@ -29,21 +31,25 @@ export function useTasks() {
     if (savedGroups && savedGroups.length > 0) {
       setGroups(savedGroups);
     } else {
-      // Initialize with default groups
-      setItem(STORAGE_KEY_GROUPS, DEFAULT_GROUPS);
+      const ok = setItem(STORAGE_KEY_GROUPS, DEFAULT_GROUPS);
+      if (!ok) toast.error('Could not save groups. Storage may be full or disabled.');
     }
+
+    setIsLoading(false);
   }, []);
 
   // Sync tasks to storage whenever they change
   useEffect(() => {
     if (tasks.length > 0 || getItem<Task[]>(STORAGE_KEY_TASKS) !== null) {
-      setItem(STORAGE_KEY_TASKS, tasks);
+      const ok = setItem(STORAGE_KEY_TASKS, tasks);
+      if (!ok) toast.error('Could not save tasks. Storage may be full or disabled.');
     }
   }, [tasks]);
 
   // Sync groups to storage whenever they change
   useEffect(() => {
-    setItem(STORAGE_KEY_GROUPS, groups);
+    const ok = setItem(STORAGE_KEY_GROUPS, groups);
+    if (!ok) toast.error('Could not save groups. Storage may be full or disabled.');
   }, [groups]);
 
   // Generate unique ID
@@ -171,6 +177,7 @@ export function useTasks() {
     groups,
     filter,
     setFilter,
+    isLoading,
     addTask,
     updateTask,
     deleteTask,

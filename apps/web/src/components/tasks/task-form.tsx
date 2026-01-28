@@ -69,35 +69,44 @@ export function TaskForm({
           }}
           placeholder="Enter task title..."
           autoFocus
+          aria-invalid={!!error}
+          aria-describedby={error ? 'task-title-error' : undefined}
         />
-        {error && <p className="text-sm text-destructive">{error}</p>}
+        {error && (
+          <p id="task-title-error" className="text-sm text-destructive" role="alert">
+            {error}
+          </p>
+        )}
       </div>
 
       <div className="space-y-2">
         <Label>Group (Optional)</Label>
         <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button
-              type="button"
-              variant="outline"
-              className="w-full justify-between"
-            >
-              <span className="flex items-center gap-2">
-                {selectedGroup ? (
-                  <>
-                    <span
-                      className="w-3 h-3 rounded-full"
-                      style={{ backgroundColor: selectedGroup.color }}
-                    />
-                    {selectedGroup.name}
-                  </>
-                ) : (
-                  'No group'
-                )}
-              </span>
-              <ChevronDown className="h-4 w-4" />
-            </Button>
-          </DropdownMenuTrigger>
+          {
+            // @ts-expect-error Base UI Trigger accepts asChild-style composition
+            <DropdownMenuTrigger asChild>
+              <Button
+                type="button"
+                variant="outline"
+                className="w-full justify-between"
+              >
+                <span className="flex items-center gap-2">
+                  {selectedGroup ? (
+                    <>
+                      <span
+                        className="w-3 h-3 rounded-full"
+                        style={{ backgroundColor: selectedGroup.color }}
+                      />
+                      {selectedGroup.name}
+                    </>
+                  ) : (
+                    'No group'
+                  )}
+                </span>
+                <ChevronDown className="h-4 w-4" />
+              </Button>
+            </DropdownMenuTrigger>
+          }
           <DropdownMenuContent className="w-56">
             <DropdownMenuItem onClick={() => setSelectedGroupId(null)}>
               No group

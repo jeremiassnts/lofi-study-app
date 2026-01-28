@@ -2,6 +2,7 @@
 
 import { lazy, Suspense } from 'react';
 import type { RefObject } from 'react';
+import { Skeleton } from '@/components/ui/skeleton';
 
 // Lazy load React Player to reduce initial bundle size
 const ReactPlayer = lazy(() => import('react-player'));
@@ -15,6 +16,18 @@ interface PlayerContainerProps {
   onReady: () => void;
 }
 
+function PlayerLoadingFallback() {
+  return (
+    <div className="w-full space-y-3">
+      <Skeleton className="w-full aspect-video rounded-lg" />
+      <div className="flex items-center gap-3">
+        <Skeleton className="h-9 w-9 shrink-0 rounded" />
+        <Skeleton className="h-2 flex-1 max-w-[120px]" />
+      </div>
+    </div>
+  );
+}
+
 export function PlayerContainer({
   url,
   playing,
@@ -25,13 +38,7 @@ export function PlayerContainer({
 }: PlayerContainerProps) {
   return (
     <div className="w-full h-full">
-      <Suspense
-        fallback={
-          <div className="w-full aspect-video bg-muted flex items-center justify-center rounded-lg">
-            <p className="text-sm text-muted-foreground">Loading player...</p>
-          </div>
-        }
-      >
+      <Suspense fallback={<PlayerLoadingFallback />}>
         <div className="relative w-full aspect-video rounded-lg overflow-hidden">
           <ReactPlayer
             ref={playerRef}
@@ -43,6 +50,7 @@ export function PlayerContainer({
             controls={false}
             config={{
               youtube: {
+                // @ts-expect-error - react-player youtube type omits playerVars; used at runtime
                 playerVars: {
                   autoplay: 0,
                   controls: 0,

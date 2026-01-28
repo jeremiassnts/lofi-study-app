@@ -25,12 +25,15 @@ export function getItem<T>(key: string): T | null {
  * Saves an item to localStorage with type safety
  * @param key - Storage key (without prefix)
  * @param value - Value to store (will be JSON stringified)
+ * @returns true on success, false on failure (e.g. quota exceeded, disabled)
  */
-export function setItem<T>(key: string, value: T): void {
+export function setItem<T>(key: string, value: T): boolean {
   try {
     localStorage.setItem(`${STORAGE_PREFIX}${key}`, JSON.stringify(value));
+    return true;
   } catch (error) {
     console.error(`Error writing to localStorage: ${key}`, error);
+    return false;
   }
 }
 

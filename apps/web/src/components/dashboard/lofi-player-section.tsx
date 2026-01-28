@@ -1,6 +1,7 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
+import { toast } from 'sonner';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { usePlayer } from '@/components/lofi-player/use-player';
 import { PlayerContainer } from '@/components/lofi-player/player-container';
@@ -13,10 +14,20 @@ import { cn } from '@/lib/utils';
 export function LofiPlayerSection() {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const player = usePlayer();
+  const prevErrorRef = useRef<string | null>(null);
+
+  useEffect(() => {
+    if (player.error && player.error !== prevErrorRef.current) {
+      prevErrorRef.current = player.error;
+      toast.error(player.error, { description: 'Try another stream from the dropdown.' });
+    } else if (!player.error) {
+      prevErrorRef.current = null;
+    }
+  }, [player.error]);
 
   return (
     <Card>
-      <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-4">
+      <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-4 flex-wrap gap-2">
         <div className="flex items-center gap-2">
           <CardTitle>Lofi Music Player</CardTitle>
           {player.error && (
