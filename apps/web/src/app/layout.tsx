@@ -17,8 +17,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "lofi-study-app",
-  description: "lofi-study-app",
+  title: "Lofi Study App - Focus & Productivity",
+  description: "A beautiful study companion with Pomodoro timer, task management, and lofi music",
 };
 
 export default function RootLayout({
