@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
   DropdownMenuContent,
+  DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
@@ -20,7 +21,7 @@ import {
  * Replaces the simple light/dark mode toggle with a multi-theme system.
  */
 export function ThemeSelector() {
-  const { themes, currentTheme, currentThemeId, setTheme, mounted } = useThemeSwitcher();
+  const { themes, currentThemeId, setTheme, mounted } = useThemeSwitcher();
 
   // Prevent hydration mismatch
   if (!mounted) {
@@ -34,12 +35,14 @@ export function ThemeSelector() {
 
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger render={<Button variant="outline" size="icon" aria-label="Select theme" />}>
+      <DropdownMenuTrigger render={<Button variant="outline" size="icon" aria-label="Select theme" className="cursor-pointer rounded-sm" />}>
         <Palette className="h-[1.2rem] w-[1.2rem]" />
         <span className="sr-only">Select theme</span>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="w-[280px]">
+      <DropdownMenuContent align="end" className="w-[280px] rounded-sm">
+      <DropdownMenuGroup>
         <DropdownMenuLabel>Choose Theme</DropdownMenuLabel>
+        </DropdownMenuGroup>
         <DropdownMenuSeparator />
         <div className="p-2 space-y-2">
           {themes.map((theme) => (

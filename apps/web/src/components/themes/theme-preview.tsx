@@ -1,6 +1,7 @@
 'use client';
 
 import { type Theme } from '@/lib/themes.config';
+import { CheckCircle, CheckCircle2 } from 'lucide-react';
 
 interface ThemePreviewProps {
   theme: Theme;
@@ -18,8 +19,8 @@ export function ThemePreview({ theme, isSelected = false, onClick }: ThemePrevie
   return (
     <div
       className={`
-        relative p-3 rounded-lg border-2 cursor-pointer transition-all
-        ${isSelected ? 'border-primary ring-2 ring-ring' : 'border-border hover:border-primary/50'}
+        relative rounded-xs border-none cursor-pointer transition-all w-full
+        ${isSelected ? 'bg-primary' : 'hover:bg-secondary'}
       `}
       onClick={onClick}
       role="button"
@@ -31,49 +32,49 @@ export function ThemePreview({ theme, isSelected = false, onClick }: ThemePrevie
         }
       }}
       aria-label={`Select ${theme.name} theme`}
+      style={{
+        padding: '5px',
+      }}
     >
-      <div className="flex flex-col gap-2">
-        <div className="flex items-center justify-between mb-1">
-          <span className="font-medium text-sm">{theme.name}</span>
-          {isSelected && (
-            <span className="text-xs text-primary font-medium">Selected</span>
-          )}
+      <div className="flex flex-col gap-1">
+        <div className="flex items-center justify-start gap-1">
+          <span className={`font-medium text-sm ${isSelected ? 'text-primary-foreground' : 'text-muted-foreground'}`}>{theme.name}</span>
         </div>
-        <div className="flex gap-1">
+        {theme.description && (
+          <p className={`text-xs ${isSelected ? 'text-primary-foreground' : 'text-muted-foreground'}`}>{theme.description}</p>
+        )}
+        <div className="flex flex-row justify-start gap-1 items-center">
           {/* Primary color */}
           <div
-            className="w-6 h-6 rounded border border-border/50"
+            className="w-6 h-6 rounded border border-border/50 rounded-sm"
             style={{ backgroundColor: colors.primary }}
             title="Primary"
           />
           {/* Background color */}
           <div
-            className="w-6 h-6 rounded border border-border/50"
+            className="w-6 h-6 rounded border border-border/50 rounded-sm"
             style={{ backgroundColor: colors.background }}
             title="Background"
           />
           {/* Accent color */}
           <div
-            className="w-6 h-6 rounded border border-border/50"
+            className="w-6 h-6 rounded border border-border/50 rounded-sm"
             style={{ backgroundColor: colors.accent }}
             title="Accent"
           />
           {/* Secondary color */}
           <div
-            className="w-6 h-6 rounded border border-border/50"
+            className="w-6 h-6 rounded border border-border/50 rounded-sm"
             style={{ backgroundColor: colors.secondary }}
             title="Secondary"
           />
           {/* Muted color */}
           <div
-            className="w-6 h-6 rounded border border-border/50"
+            className="w-6 h-6 rounded border border-border/50 rounded-sm"
             style={{ backgroundColor: colors.muted }}
             title="Muted"
           />
         </div>
-        {theme.description && (
-          <p className="text-xs text-muted-foreground mt-1">{theme.description}</p>
-        )}
       </div>
     </div>
   );
