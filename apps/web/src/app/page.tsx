@@ -1,6 +1,7 @@
 "use client";
 
 import { PomodoroSection } from "@/components/dashboard/pomodoro-section";
+import { TasksSection } from "@/components/dashboard/tasks-section";
 
 export default function Home() {
   return (
@@ -11,14 +12,9 @@ export default function Home() {
           <PomodoroSection />
         </div>
 
-        {/* Center Column - Task Manager (Phase 2) */}
+        {/* Center Column - Task Manager */}
         <div className="lg:col-span-2">
-          <div className="rounded-lg border border-dashed p-8 h-full flex items-center justify-center">
-            <div className="text-center text-muted-foreground">
-              <h3 className="text-lg font-medium mb-2">Task Manager</h3>
-              <p className="text-sm">Coming in Phase 2</p>
-            </div>
-          </div>
+          <TasksSection />
         </div>
       </div>
 

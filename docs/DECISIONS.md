@@ -312,6 +312,33 @@ Everything (code, comments, docs, commit messages) in English.
 
 ---
 
+## ADR-011: Simplified Form Validation for Task Form
+
+**Date**: 2026-01-28  
+**Status**: Accepted
+
+### Context
+The roadmap suggested using `@tanstack/react-form` with `zod-form-adapter` for form validation. However, the adapter package was not installed and the form requirements are simple.
+
+### Decision
+Use React state with manual validation instead of `@tanstack/react-form` with zod adapter for the task form.
+
+### Consequences
+
+**Positive**:
+- No additional dependencies needed
+- Simpler implementation for straightforward form
+- Faster to implement
+- Still demonstrates form handling best practices
+
+**Negative**:
+- Less sophisticated than using a form library
+- Manual validation logic needs to be maintained
+
+**Why**: For a simple form with two fields (title and optional group), the overhead of setting up a form library with adapter wasn't justified. The manual approach is cleaner and more maintainable for this use case.
+
+---
+
 ## Template for Future ADRs
 
 Copy this template when adding new decisions:
