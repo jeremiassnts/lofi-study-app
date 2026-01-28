@@ -2,6 +2,7 @@
 
 import { PomodoroSection } from "@/components/dashboard/pomodoro-section";
 import { TasksSection } from "@/components/dashboard/tasks-section";
+import { LofiPlayerSection } from "@/components/dashboard/lofi-player-section";
 
 export default function Home() {
   return (
@@ -18,14 +19,9 @@ export default function Home() {
         </div>
       </div>
 
-      {/* Bottom Section - Lofi Player (Phase 3) */}
+      {/* Bottom Section - Lofi Player */}
       <div className="mt-6">
-        <div className="rounded-lg border border-dashed p-8 flex items-center justify-center">
-          <div className="text-center text-muted-foreground">
-            <h3 className="text-lg font-medium mb-2">🎵 Lofi Music Player</h3>
-            <p className="text-sm">Coming in Phase 3</p>
-          </div>
-        </div>
+        <LofiPlayerSection />
       </div>
     </div>
   );

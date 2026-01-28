@@ -8,7 +8,7 @@ This document outlines the step-by-step implementation plan for the Lofi Study A
 |-----------|----------|--------|-------------|
 | [1. Foundation & Pomodoro](#milestone-1-foundation--pomodoro) | 2 days | ✅ Complete | Working timer with settings |
 | [2. Task Management](#milestone-2-task-management) | 2 days | ✅ Complete | Full CRUD with groups |
-| [3. Lofi Player](#milestone-3-lofi-player) | 1 day | ⬜ Pending | Embedded YouTube player |
+| [3. Lofi Player](#milestone-3-lofi-player) | 1 day | ✅ Complete | Embedded YouTube player |
 | [4. Multi-Theme System](#milestone-4-multi-theme-system) | 1 day | ⬜ Pending | 5 themes with selector |
 | [5. Polish & Animations](#milestone-5-polish--animations) | 1 day | ⬜ Pending | Refined UX |
 | [6. CI/CD Pipeline](#milestone-6-cicd-pipeline) | 1 day | ⬜ Pending | Automated deployment |
@@ -344,7 +344,7 @@ interface Group {
 
 ### Step 3.1: Install React Player
 
-**Status**: ⬜ Not Started | ⬜ In Progress | ⬜ Complete
+**Status**: ✅ Complete
 
 **Command**:
 ```bash
@@ -356,20 +356,22 @@ pnpm add react-player
 
 **Time**: 5 minutes
 
+**Implementation Notes**: Installed react-player v3.4.0 successfully. Package handles YouTube embed complexity and provides simple API for play/pause/volume control.
+
 ---
 
 ### Step 3.2: Player Hook & Logic
 
-**Status**: ⬜ Not Started | ⬜ In Progress | ⬜ Complete
+**Status**: ✅ Complete
 
 **File**: `apps/web/src/components/lofi-player/use-player.ts`
 
 **Tasks**:
-- [ ] Implement play/pause state
-- [ ] Implement volume control (0-100)
-- [ ] Store current stream URL
-- [ ] Add error handling (stream offline)
-- [ ] Persist volume to localStorage
+- [x] Implement play/pause state
+- [x] Implement volume control (0-100)
+- [x] Store current stream URL
+- [x] Add error handling (stream offline)
+- [x] Persist volume to localStorage
 
 **Why**: Abstracts player API
 
@@ -379,23 +381,25 @@ pnpm add react-player
 
 **Portfolio Value**: ⭐⭐ API integration
 
+**Implementation Notes**: Created complete hook with play/pause state, volume control (0-100), stream management with 4 default streams (Lofi Girl, Chillhop Music, The Jazz Hop Café, College Music), error handling for offline streams, and localStorage persistence for both volume and selected stream. Hook uses useRef for player instance and provides all necessary callbacks for React Player integration.
+
 ---
 
 ### Step 3.3: Player UI Components
 
-**Status**: ⬜ Not Started | ⬜ In Progress | ⬜ Complete
+**Status**: ✅ Complete
 
 **Files**:
 - `apps/web/src/components/lofi-player/player-container.tsx`
 - `apps/web/src/components/lofi-player/player-controls.tsx`
-- `apps/web/src/components/lofi-player/stream-selector.tsx` (optional)
+- `apps/web/src/components/lofi-player/stream-selector.tsx`
 
 **Tasks**:
-- [ ] Create `player-container.tsx` - React Player wrapper
-- [ ] Create `player-controls.tsx` - Play/pause, volume
-- [ ] Create `stream-selector.tsx` - Multiple streams (optional)
-- [ ] Set default stream (Lofi Girl or similar)
-- [ ] Style with minimal chrome
+- [x] Create `player-container.tsx` - React Player wrapper
+- [x] Create `player-controls.tsx` - Play/pause, volume
+- [x] Create `stream-selector.tsx` - Multiple streams
+- [x] Set default stream (Lofi Girl or similar)
+- [x] Style with minimal chrome
 
 **Why**: Completes third pillar
 
@@ -405,23 +409,25 @@ pnpm add react-player
 
 **Portfolio Value**: ⭐⭐⭐ Third-party integration
 
+**Implementation Notes**: Created all three components with full functionality. Player container uses lazy loading for React Player to reduce initial bundle size. Player controls include play/pause button, mute toggle, and volume slider with percentage display. Stream selector uses dropdown menu with checkmarks to show current selection. All components styled with shadcn/ui components and minimal chrome design. Default stream is Lofi Girl.
+
 ---
 
 ### Step 3.4: Player Section Integration
 
-**Status**: ⬜ Not Started | ⬜ In Progress | ⬜ Complete
+**Status**: ✅ Complete
 
 **Files**:
 - `apps/web/src/components/dashboard/lofi-player-section.tsx`
 - `apps/web/src/app/page.tsx` (update)
 
 **Tasks**:
-- [ ] Create `lofi-player-section.tsx` container
-- [ ] Integrate player components
-- [ ] Add to dashboard layout (bottom section)
-- [ ] Make collapsible
-- [ ] Test embed permissions/CORS
-- [ ] Update DECISIONS.md
+- [x] Create `lofi-player-section.tsx` container
+- [x] Integrate player components
+- [x] Add to dashboard layout (bottom section)
+- [x] Make collapsible
+- [x] Test embed permissions/CORS
+- [x] Update DECISIONS.md
 
 **Why**: Ambient feature for study environment
 
@@ -430,6 +436,8 @@ pnpm add react-player
 **Time**: 1 hour
 
 **Portfolio Value**: ⭐ Integration
+
+**Implementation Notes**: Fully integrated lofi player section into dashboard. Section is collapsible with smooth animations, includes stream selector in header, displays error messages when streams are unavailable, and integrates all player components seamlessly. Updated page.tsx to replace placeholder with LofiPlayerSection component. Player works with YouTube embeds and handles CORS/permissions correctly.
 
 ---
 
