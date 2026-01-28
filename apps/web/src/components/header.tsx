@@ -4,11 +4,12 @@ import Link from "next/link";
 import { ThemeSelector } from "./themes/theme-selector";
 
 export default function Header() {
-  const links = [{ to: "/", label: "Home" }] as const;
+  const links = [{ to: "/", label: "Lofi Study App" }] as const;
 
   return (
     <div>
       <div className="flex flex-row items-center justify-between px-2 py-1">
+        <div/>
         <nav className="flex gap-4 text-lg">
           {links.map(({ to, label }) => {
             return (
