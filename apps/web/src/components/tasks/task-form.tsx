@@ -83,29 +83,26 @@ export function TaskForm({
         <Label>Group (Optional)</Label>
         <DropdownMenu>
           {
-            // @ts-expect-error Base UI Trigger accepts asChild-style composition
-            <DropdownMenuTrigger asChild>
-              <Button
-                type="button"
-                variant="outline"
-                className="w-full justify-between"
-              >
-                <span className="flex items-center gap-2">
-                  {selectedGroup ? (
-                    <>
-                      <span
-                        className="w-3 h-3 rounded-full"
-                        style={{ backgroundColor: selectedGroup.color }}
-                      />
-                      {selectedGroup.name}
-                    </>
-                  ) : (
-                    'No group'
-                  )}
-                </span>
-                <ChevronDown className="h-4 w-4" />
-              </Button>
-            </DropdownMenuTrigger>
+            <DropdownMenuTrigger render={<Button
+              type="button"
+              variant="outline"
+              className="w-full justify-between"
+            >
+              <span className="flex items-center gap-2">
+                {selectedGroup ? (
+                  <>
+                    <span
+                      className="w-3 h-3 rounded-full"
+                      style={{ backgroundColor: selectedGroup.color }}
+                    />
+                    {selectedGroup.name}
+                  </>
+                ) : (
+                  'No group'
+                )}
+              </span>
+              <ChevronDown className="h-4 w-4" />
+            </Button>}/>
           }
           <DropdownMenuContent className="w-56">
             <DropdownMenuItem onClick={() => setSelectedGroupId(null)}>

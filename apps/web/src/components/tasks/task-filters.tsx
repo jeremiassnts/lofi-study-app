@@ -40,13 +40,10 @@ export function TaskFilters({
       <div className="flex flex-wrap items-center gap-2">
         <DropdownMenu>
           {
-            // @ts-expect-error Base UI Trigger accepts asChild-style composition
-            <DropdownMenuTrigger asChild>
-              <Button variant="outline" size="sm">
-                <Filter className="mr-2 h-4 w-4" />
-                {getFilterLabel()}
-              </Button>
-            </DropdownMenuTrigger>
+            <DropdownMenuTrigger render={<Button variant="outline" size="sm">
+              <Filter className="mr-2 h-4 w-4" />
+              {getFilterLabel()}
+            </Button>} />
           }
           <DropdownMenuContent align="start">
             <DropdownMenuLabel>Filter Tasks</DropdownMenuLabel>
