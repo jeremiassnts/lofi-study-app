@@ -7,8 +7,8 @@ A single-page study organization web application designed to showcase modern ful
 ## Tech Stack
 
 ### Core Framework
-- **Next.js 16.1.1** - React framework with App Router
-- **React 19.2.3** - UI library
+- **Next.js 15.1.6** - React framework with App Router
+- **React 18.3.1** - UI library
 - **TypeScript** - Type safety throughout
 
 ### Styling

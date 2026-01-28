@@ -4,7 +4,7 @@
 
 [![Build Status](https://github.com/yourusername/lofi-study-app/workflows/CI/badge.svg)](https://github.com/yourusername/lofi-study-app/actions)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue.svg)](https://www.typescriptlang.org/)
-[![Next.js](https://img.shields.io/badge/Next.js-16.0-black.svg)](https://nextjs.org/)
+[![Next.js](https://img.shields.io/badge/Next.js-15.0-black.svg)](https://nextjs.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 [Live Demo](https://lofi-study-app.vercel.app) • [Documentation](./docs/ARCHITECTURE.md) • [Features](./docs/FEATURES.md) • [Roadmap](./docs/ROADMAP.md)
@@ -83,8 +83,8 @@ pnpm start
 ## 🏗️ Tech Stack
 
 ### Core
-- **[Next.js 16](https://nextjs.org/)** - React framework with App Router
-- **[React 19](https://react.dev/)** - UI library
+- **[Next.js 15](https://nextjs.org/)** - React framework with App Router
+- **[React 18](https://react.dev/)** - UI library
 - **[TypeScript](https://www.typescriptlang.org/)** - Type safety
 
 ### Styling
