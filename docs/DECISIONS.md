@@ -5,6 +5,7 @@ This document tracks key architectural decisions made during the development of 
 ## Format
 
 Each decision follows this structure:
+
 - **Date**: When the decision was made
 - **Status**: Proposed | Accepted | Superseded
 - **Context**: What problem we're solving
@@ -19,14 +20,17 @@ Each decision follows this structure:
 **Status**: Accepted
 
 ### Context
+
 The application has three main features (Pomodoro, Tasks, Player) that are largely independent. We need to decide how to manage state across the application.
 
 ### Decision
+
 Use React's built-in state management (useState, useContext) with custom hooks, instead of Redux, Zustand, or other state management libraries.
 
 ### Consequences
 
 **Positive**:
+
 - Simpler architecture with fewer dependencies
 - Better performance (no global store re-renders)
 - Easier to understand for portfolio reviewers
@@ -34,6 +38,7 @@ Use React's built-in state management (useState, useContext) with custom hooks, 
 - Each feature is independently testable
 
 **Negative**:
+
 - If features need to communicate in the future, refactoring may be needed
 - No time-travel debugging
 - No built-in devtools for state inspection
@@ -48,14 +53,17 @@ Use React's built-in state management (useState, useContext) with custom hooks, 
 **Status**: Accepted
 
 ### Context
+
 Tasks need to be persisted across browser sessions. We need to choose between localStorage, IndexedDB, or a backend API.
 
 ### Decision
+
 Start with localStorage for the MVP, with a storage abstraction layer that allows future migration to IndexedDB.
 
 ### Consequences
 
 **Positive**:
+
 - Immediate implementation (synchronous API)
 - No backend complexity
 - Works offline by default
@@ -63,6 +71,7 @@ Start with localStorage for the MVP, with a storage abstraction layer that allow
 - Storage abstraction makes migration easy
 
 **Negative**:
+
 - Limited to 5-10MB storage
 - No support for binary data (files/images)
 - Synchronous API can block main thread (if data gets large)
@@ -78,14 +87,17 @@ Start with localStorage for the MVP, with a storage abstraction layer that allow
 **Status**: Accepted ✅ Implemented
 
 ### Context
+
 The app needs to support multiple themes beyond just light/dark mode to showcase design system skills.
 
 ### Decision
+
 Implement 5 curated themes using CSS Custom Properties (CSS variables) that are swapped at runtime, stored in localStorage.
 
 ### Consequences
 
 **Positive**:
+
 - No CSS-in-JS overhead (smaller bundle, better performance)
 - Smooth theme transitions with CSS
 - Easy to add new themes (just config objects)
@@ -93,6 +105,7 @@ Implement 5 curated themes using CSS Custom Properties (CSS variables) that are 
 - Demonstrates modern CSS knowledge
 
 **Negative**:
+
 - No TypeScript safety for CSS variable names
 - Requires manual contrast checking for accessibility
 - IE11 doesn't support CSS variables (acceptable trade-off)
@@ -102,6 +115,7 @@ Implement 5 curated themes using CSS Custom Properties (CSS variables) that are 
 ### Implementation Details
 
 **Themes Implemented**:
+
 1. **Lofi Cozy** (default) - Warm browns, muted purples, soft orange accents
 2. **Minimal Light** - Clean whites, subtle grays, high contrast
 3. **Midnight Study** - Deep navy with teal accents, low contrast
@@ -109,6 +123,7 @@ Implement 5 curated themes using CSS Custom Properties (CSS variables) that are 
 5. **Forest Focus** - Earthy greens and wood tones, nature-inspired
 
 **Implementation Approach**:
+
 - Created `themes.config.ts` with TypeScript interfaces for type safety
 - Used oklch color format for better color manipulation and consistency
 - Custom hook `useThemeSwitcher` manages theme state and application
@@ -118,6 +133,7 @@ Implement 5 curated themes using CSS Custom Properties (CSS variables) that are 
 - Visual theme selector with color palette previews in header
 
 **Files Created**:
+
 - `apps/web/src/lib/themes.config.ts` - Theme definitions
 - `apps/web/src/hooks/use-theme-switcher.ts` - Theme management hook
 - `apps/web/src/components/themes/theme-selector.tsx` - Main selector component
@@ -125,6 +141,7 @@ Implement 5 curated themes using CSS Custom Properties (CSS variables) that are 
 - `apps/web/src/components/themes/theme-initializer.tsx` - Theme initialization
 
 **Files Modified**:
+
 - `apps/web/src/components/header.tsx` - Replaced ModeToggle with ThemeSelector
 - `apps/web/src/components/providers.tsx` - Added ThemeInitializer
 - `apps/web/src/index.css` - Added smooth transitions for theme changes
@@ -137,14 +154,17 @@ Implement 5 curated themes using CSS Custom Properties (CSS variables) that are 
 **Status**: Accepted
 
 ### Context
+
 The lofi player needs to embed YouTube live streams. We need to choose between the raw YouTube iframe API, react-player, or other libraries.
 
 ### Decision
+
 Use `react-player` library for YouTube embeds.
 
 ### Consequences
 
 **Positive**:
+
 - Handles YouTube API complexity
 - Supports multiple video platforms (future flexibility)
 - Well-maintained with good TypeScript support
@@ -152,6 +172,7 @@ Use `react-player` library for YouTube embeds.
 - Simple API for play/pause/volume
 
 **Negative**:
+
 - Adds ~50KB to bundle (lazy-loaded to minimize impact)
 - Another dependency to maintain
 - Abstracts away some YouTube-specific features
@@ -166,14 +187,17 @@ Use `react-player` library for YouTube embeds.
 **Status**: Accepted
 
 ### Context
+
 The app could have a backend for user accounts, cloud sync, and analytics. We need to decide if this is necessary for the portfolio version.
 
 ### Decision
+
 Build the MVP without a backend. Store all data client-side.
 
 ### Consequences
 
 **Positive**:
+
 - Faster development (focus on frontend skills)
 - Zero infrastructure cost
 - No deployment complexity
@@ -181,12 +205,14 @@ Build the MVP without a backend. Store all data client-side.
 - Demonstrates full-stack thinking without overbuilding
 
 **Negative**:
+
 - No cross-device sync
 - Data lives in single browser
 - No user accounts
 - Can't showcase backend skills in this project
 
 **Future Path**: If we add a backend later, consider:
+
 - NextAuth.js for authentication
 - Supabase for database + real-time sync
 - Vercel KV for simple key-value storage
@@ -201,14 +227,17 @@ Build the MVP without a backend. Store all data client-side.
 **Status**: Accepted (inherited from starter)
 
 ### Context
+
 The project was initialized with a Turborepo monorepo structure with separate apps and packages.
 
 ### Decision
+
 Keep the monorepo structure even though we only have one app currently.
 
 ### Consequences
 
 **Positive**:
+
 - Shows understanding of monorepo patterns
 - Easy to add packages (shared components, utils, etc.)
 - Turbo caching speeds up builds
@@ -216,6 +245,7 @@ Keep the monorepo structure even though we only have one app currently.
 - Good for portfolio (demonstrates enterprise patterns)
 
 **Negative**:
+
 - Slight complexity overhead for single app
 - More configuration files
 - Longer initial setup time
@@ -230,14 +260,17 @@ Keep the monorepo structure even though we only have one app currently.
 **Status**: Accepted (inherited from starter)
 
 ### Context
+
 Need a component library for UI primitives (buttons, modals, forms, etc.).
 
 ### Decision
+
 Use shadcn/ui with the "base-lyra" style preset.
 
 ### Consequences
 
 **Positive**:
+
 - Components live in our codebase (not node_modules)
 - Full customization control
 - Built on Radix UI primitives (accessibility built-in)
@@ -245,6 +278,7 @@ Use shadcn/ui with the "base-lyra" style preset.
 - Works perfectly with Tailwind CSS
 
 **Negative**:
+
 - Components need to be added individually
 - We're responsible for updating components
 - Slightly larger codebase than using a CDN
@@ -259,24 +293,29 @@ Use shadcn/ui with the "base-lyra" style preset.
 **Status**: Proposed
 
 ### Context
+
 Testing is valuable but takes time. Need to decide testing strategy for MVP.
 
 ### Decision
+
 Focus on visual testing and manual QA for MVP. Add Vitest + Testing Library in Milestone 7 if time permits.
 
 ### Consequences
 
 **Positive**:
+
 - Faster feature development
 - Focus on shipping working product
 - Manual testing catches obvious bugs
 
 **Negative**:
+
 - No automated regression testing
 - Harder to refactor confidently
 - Missing portfolio signal for testing skills
 
 **Compromise**: If time permits in Milestone 7, add tests for:
+
 - Custom hooks (use-pomodoro, use-tasks)
 - Storage abstraction layer
 - Complex components (task-item)
@@ -291,14 +330,17 @@ This shows selective testing judgment rather than 100% coverage.
 **Status**: Accepted
 
 ### Context
+
 Need to choose a deployment platform for the Next.js application.
 
 ### Decision
+
 Deploy to Vercel with automatic deployments from GitHub.
 
 ### Consequences
 
 **Positive**:
+
 - Zero-config Next.js deployment
 - Automatic preview deployments on PRs
 - Free tier is generous
@@ -306,10 +348,12 @@ Deploy to Vercel with automatic deployments from GitHub.
 - Industry standard for Next.js
 
 **Negative**:
+
 - Vendor lock-in (minor concern for portfolio)
 - Serverless function limitations (not relevant for our MVP)
 
 **Alternatives Considered**:
+
 - **Netlify**: Similar to Vercel but less Next.js optimized
 - **Railway/Render**: More control but more configuration
 - **AWS/GCP**: Overkill for this project
@@ -322,20 +366,24 @@ Deploy to Vercel with automatic deployments from GitHub.
 **Status**: Accepted
 
 ### Context
+
 Project could be in Portuguese or English. Need to choose language for code, comments, and documentation.
 
 ### Decision
+
 Everything (code, comments, docs, commit messages) in English.
 
 ### Consequences
 
 **Positive**:
+
 - Accessible to international recruiters
 - Standard practice for open-source
 - Better for portfolio visibility
 - Easier to get help from broader community
 
 **Negative**:
+
 - Might be slower to write for non-native speakers
 
 **Why**: English is the lingua franca of software development. For a portfolio project, international accessibility is critical.
@@ -348,20 +396,24 @@ Everything (code, comments, docs, commit messages) in English.
 **Status**: Accepted
 
 ### Context
+
 The roadmap suggested using `@tanstack/react-form` with `zod-form-adapter` for form validation. However, the adapter package was not installed and the form requirements are simple.
 
 ### Decision
+
 Use React state with manual validation instead of `@tanstack/react-form` with zod adapter for the task form.
 
 ### Consequences
 
 **Positive**:
+
 - No additional dependencies needed
 - Simpler implementation for straightforward form
 - Faster to implement
 - Still demonstrates form handling best practices
 
 **Negative**:
+
 - Less sophisticated than using a form library
 - Manual validation logic needs to be maintained
 
@@ -375,20 +427,24 @@ Use React state with manual validation instead of `@tanstack/react-form` with zo
 **Status**: Accepted
 
 ### Context
+
 The project needed automated quality checks and build verification before deployment (Milestone 6).
 
 ### Decision
+
 Add a single GitHub Actions workflow that runs on push/PR to main: one job for lint + type check, a second job for build (with Turbo cache). No deploy step in workflow; Vercel handles deployment via GitHub integration.
 
 ### Consequences
 
 **Positive**:
+
 - Catches lint and type errors before merge
 - Build job ensures the app compiles
 - Turbo cache speeds up CI
 - Clear separation: CI validates, Vercel deploys
 
 **Negative**:
+
 - No automated tests in pipeline (see ADR-008)
 - Visual assets and Vercel setup remain manual
 
@@ -407,18 +463,22 @@ Copy this template when adding new decisions:
 **Status**: Proposed | Accepted | Superseded
 
 ### Context
+
 [What problem are we solving? What are the constraints?]
 
 ### Decision
+
 [What did we decide to do?]
 
 ### Consequences
 
 **Positive**:
+
 - [Benefit 1]
 - [Benefit 2]
 
 **Negative**:
+
 - [Trade-off 1]
 - [Trade-off 2]
 
@@ -439,14 +499,17 @@ None yet. When a decision is superseded, move it here with a note explaining wha
 **Status**: Accepted
 
 ### Context
+
 The app already uses `next-themes` for basic light/dark mode. For the multi-theme system, we needed to decide whether to extend next-themes or create a custom solution.
 
 ### Decision
+
 Create a custom `useThemeSwitcher` hook that works alongside next-themes but manages themes independently via CSS custom properties.
 
 ### Consequences
 
 **Positive**:
+
 - Full control over theme application logic
 - No dependency on next-themes limitations
 - Can apply themes via CSS variables without class toggling
@@ -454,6 +517,7 @@ Create a custom `useThemeSwitcher` hook that works alongside next-themes but man
 - Better performance (no class switching, just CSS variable updates)
 
 **Negative**:
+
 - Two theme systems coexist (next-themes for system preference, custom for multi-theme)
 - Slightly more code to maintain
 - Need to handle hydration mismatches manually
@@ -481,11 +545,13 @@ Milestone 5 (Polish & Animations) required error handling (task storage, player 
 ### Consequences
 
 **Positive**:
+
 - Clear feedback when storage or streams fail
 - Isolated section failures
 - Perceived performance via skeletons and consistent loading states
 
 **Negative**:
+
 - `setItem` return type change; all call sites must tolerate it (we only act on it in `use-tasks`)
 
 ---

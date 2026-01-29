@@ -7,21 +7,25 @@ A single-page study organization web application designed to showcase modern ful
 ## Tech Stack
 
 ### Core Framework
+
 - **Next.js 16.2.0-canary.14** - React framework with App Router
 - **React 18.3.1** - UI library
 - **TypeScript** - Type safety throughout
 
 ### Styling
+
 - **Tailwind CSS 4.1.10** - Utility-first CSS
 - **shadcn/ui** - Reusable component library (base-lyra style)
 - **next-themes** - Theme management system
 - **tw-animate-css** - Animation utilities
 
 ### Build Tools
+
 - **Turborepo** - Monorepo build system
 - **pnpm** - Fast, efficient package manager
 
 ### State Management
+
 - **React Hooks** - Local component state
 - **Custom Hooks** - Business logic abstraction
 - **localStorage** - Client-side persistence (MVP)
@@ -53,6 +57,7 @@ A single-page study organization web application designed to showcase modern ful
 ```
 
 ### Responsive Behavior
+
 - **Desktop (>1024px)**: 3-column grid layout
 - **Tablet (768-1024px)**: 2-column layout, player at bottom
 - **Mobile (<768px)**: Stacked sections, collapsible
@@ -113,18 +118,22 @@ apps/web/src/
 ## Design Patterns
 
 ### 1. Container/Presenter Pattern
+
 - **Section containers** handle layout and composition
 - **Feature components** handle specific UI and logic
 - **Custom hooks** contain business logic
 
 ### 2. Custom Hooks Pattern
+
 All business logic is extracted into reusable hooks:
+
 - `use-pomodoro.ts` - Timer state machine
 - `use-tasks.ts` - Task CRUD operations
 - `use-player.ts` - Media player state
 - `use-theme-switcher.ts` - Multi-theme logic
 
 ### 3. Composition Over Configuration
+
 - Small, focused components
 - Compose complex UIs from simple pieces
 - Props for customization, not massive config objects
@@ -132,7 +141,9 @@ All business logic is extracted into reusable hooks:
 ## State Management Strategy
 
 ### No Global State Library
+
 We deliberately avoid Redux/Zustand because:
+
 - State is isolated to features
 - No cross-component data sharing needs
 - Better performance (no unnecessary re-renders)
@@ -140,17 +151,18 @@ We deliberately avoid Redux/Zustand because:
 
 ### State Types & Solutions
 
-| State Type | Strategy | Storage | Why |
-|------------|----------|---------|-----|
-| **Pomodoro** | Component state + hook | Memory | Timer is ephemeral |
-| **Tasks** | Component state + hook | localStorage | Persistence needed |
-| **Player** | Component state + ref | Memory | Media API is local |
-| **Theme** | Context (next-themes) | localStorage | Already configured |
-| **Multi-Theme** | CSS variables | localStorage | Themes are just CSS |
+| State Type      | Strategy               | Storage      | Why                 |
+| --------------- | ---------------------- | ------------ | ------------------- |
+| **Pomodoro**    | Component state + hook | Memory       | Timer is ephemeral  |
+| **Tasks**       | Component state + hook | localStorage | Persistence needed  |
+| **Player**      | Component state + ref  | Memory       | Media API is local  |
+| **Theme**       | Context (next-themes)  | localStorage | Already configured  |
+| **Multi-Theme** | CSS variables          | localStorage | Themes are just CSS |
 
 ### Data Flow Example
 
 **Task Creation Flow:**
+
 ```
 User submits form
   → useTasks.addTask()
@@ -163,11 +175,13 @@ User submits form
 ## Storage Architecture
 
 ### Phase 1: localStorage (MVP)
+
 - Simple, synchronous API
 - Good for <5MB data
 - Perfect for MVP scope
 
 ### Phase 2: IndexedDB (Future)
+
 - Handles larger datasets
 - Supports file attachments
 - Enables offline-first features
@@ -187,6 +201,7 @@ User submits form
 ### Storage Abstraction Layer
 
 `lib/storage.ts` provides:
+
 - Type-safe get/set operations
 - JSON serialization handling
 - Error handling
@@ -206,12 +221,14 @@ User submits form
 5. **Forest Focus** - Earthy greens, nature-inspired
 
 ### Implementation
+
 - CSS Custom Properties for runtime switching
 - Theme definitions in `themes.config.ts`
 - No CSS-in-JS overhead
 - Smooth transitions between themes
 
 ### Theme Structure
+
 ```typescript
 {
   id: string,
@@ -239,16 +256,19 @@ User submits form
 ## Performance Considerations
 
 ### Code Splitting
+
 - React Player loaded lazily (large dependency)
 - Theme definitions loaded on-demand
 - Route-based splitting via Next.js
 
 ### Bundle Size Targets
+
 - Initial load: <200KB (gzipped)
 - LCP: <2.5s
 - FID: <100ms
 
 ### Optimization Strategies
+
 - Next.js Image optimization
 - Font subsetting (Geist fonts)
 - Tailwind CSS purging
@@ -257,16 +277,19 @@ User submits form
 ## Testing Strategy
 
 ### What We Test
+
 1. **Custom Hooks** - Business logic isolation
 2. **Storage Layer** - Data persistence
 3. **Complex Components** - Task items, timer controls
 
 ### What We Don't Test
+
 - Simple presentational components
 - Third-party wrappers
 - Layout components
 
 ### Testing Tools
+
 - **Vitest** - Fast test runner
 - **@testing-library/react** - Component testing
 - **@testing-library/react-hooks** - Hook testing
@@ -274,23 +297,27 @@ User submits form
 ## Build & Deployment
 
 ### Development
+
 ```bash
 pnpm dev        # All apps with Turbo
 pnpm dev:web    # Web app only
 ```
 
 ### Production Build
+
 ```bash
 pnpm build           # Turbo builds all packages
 pnpm check-types     # TypeScript validation
 ```
 
 ### CI/CD Pipeline
+
 - **Trigger**: Push to main, Pull requests
 - **Jobs**: Lint → Type Check → Build → Deploy
 - **Platform**: GitHub Actions → Vercel
 
 ### Deployment Strategy
+
 - Main branch → Auto-deploy to production
 - Pull requests → Preview deployments
 - Zero-downtime deployments
@@ -298,12 +325,15 @@ pnpm check-types     # TypeScript validation
 ## Security Considerations
 
 ### Client-Side Only (MVP)
+
 - No backend, no API keys to protect
 - No sensitive data storage
 - Public YouTube embeds only
 
 ### Future Backend Integration
+
 When adding backend:
+
 - Environment variables for secrets
 - HTTPS only
 - CORS configuration
@@ -312,6 +342,7 @@ When adding backend:
 ## Accessibility
 
 ### WCAG 2.1 Level AA Compliance
+
 - ✅ Color contrast ratios checked
 - ✅ Keyboard navigation support
 - ✅ ARIA labels on interactive elements
@@ -319,6 +350,7 @@ When adding backend:
 - ✅ Semantic HTML structure
 
 ### Screen Reader Support
+
 - Announce timer state changes
 - Task completion feedback
 - Error messages read aloud
@@ -326,6 +358,7 @@ When adding backend:
 ## Browser Support
 
 ### Target Browsers
+
 - Chrome/Edge (last 2 versions)
 - Firefox (last 2 versions)
 - Safari (last 2 versions)
@@ -333,6 +366,7 @@ When adding backend:
 - Chrome Mobile (Android 10+)
 
 ### Progressive Enhancement
+
 - Core features work without JavaScript (where possible)
 - localStorage fallback handling
 - YouTube embed fallback
@@ -340,11 +374,13 @@ When adding backend:
 ## Monitoring & Analytics
 
 ### Phase 1 (MVP)
+
 - No analytics (privacy-first)
 - Browser console for debugging
 - Vercel deployment metrics
 
 ### Phase 2 (Optional)
+
 - Privacy-respecting analytics (Plausible/Fathom)
 - Error tracking (Sentry)
 - Performance monitoring (Web Vitals)
@@ -352,6 +388,7 @@ When adding backend:
 ## Future Enhancements
 
 ### Planned Features
+
 1. Drag-and-drop task reordering
 2. Pomodoro statistics/charts
 3. Keyboard shortcuts
@@ -359,6 +396,7 @@ When adding backend:
 5. PWA support (offline mode)
 
 ### Possible Backend
+
 - User accounts (NextAuth.js)
 - Cloud sync (Supabase)
 - Collaborative tasks
