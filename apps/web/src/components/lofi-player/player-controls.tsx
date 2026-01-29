@@ -35,7 +35,7 @@ export function PlayerControls({
         size="icon"
         onClick={onTogglePlayPause}
         aria-label={playing ? 'Pause' : 'Play'}
-        className="shrink-0"
+        className="shrink-0 rounded-sm"
       >
         {playing ? (
           <Pause className="h-4 w-4" />
@@ -51,7 +51,7 @@ export function PlayerControls({
           size="icon"
           onClick={handleMuteToggle}
           aria-label={isMuted ? 'Unmute' : 'Mute'}
-          className="shrink-0"
+          className="shrink-0 rounded-sm"
         >
           {isMuted ? (
             <VolumeX className="h-4 w-4" />

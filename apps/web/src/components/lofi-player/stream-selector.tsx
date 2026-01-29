@@ -25,10 +25,10 @@ export function StreamSelector({
   return (
     <DropdownMenu>
       {
-        <DropdownMenuTrigger render={<Button variant="outline" size="sm" className="gap-2">
+        <DropdownMenuTrigger render={<Button variant="outline" size="sm" className="gap-2 rounded-sm" />}>
           <Music className="h-4 w-4" />
           <span className="truncate max-w-[150px]">{currentStream.name}</span>
-        </Button>}/>
+        </DropdownMenuTrigger>
       }
       <DropdownMenuContent align="start" className="w-56">
         {streams.map((stream) => (

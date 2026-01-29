@@ -14,6 +14,8 @@ interface PlayerContainerProps {
   playerRef: RefObject<HTMLVideoElement | null>;
   onError: (error: unknown) => void;
   onReady: () => void;
+  /** Called when user clicks on the video area (for play/pause since we use controls={false}) */
+  onVideoClick?: () => void;
 }
 
 function PlayerLoadingFallback() {
@@ -35,6 +37,7 @@ export function PlayerContainer({
   playerRef,
   onError,
   onReady,
+  onVideoClick,
 }: PlayerContainerProps) {
   return (
     <div className="w-full h-full">
@@ -42,7 +45,7 @@ export function PlayerContainer({
         <div className="relative w-full aspect-video rounded-lg overflow-hidden">
           <ReactPlayer
             ref={playerRef as RefObject<HTMLVideoElement>}
-            url={url}
+            src={url}
             playing={playing}
             volume={volume / 100}
             width="100%"
@@ -63,6 +66,18 @@ export function PlayerContainer({
             onError={onError}
             onReady={onReady}
           />
+          {onVideoClick && (
+            <button
+              type="button"
+              className="absolute inset-0 z-10 w-full h-full cursor-pointer rounded-lg border-0 bg-transparent"
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                onVideoClick();
+              }}
+              aria-label={playing ? 'Pause' : 'Play'}
+            />
+          )}
         </div>
       </Suspense>
     </div>

@@ -16,14 +16,14 @@ export const DEFAULT_STREAMS: Stream[] = [
     url: 'https://www.youtube.com/watch?v=jfKfPfyJRdk',
   },
   {
-    id: 'chillhop',
-    name: 'Chillhop Music',
-    url: 'https://www.youtube.com/watch?v=5qap5aO4i9A',
+    id: 'lofi-hip-hop-radio',
+    name: 'Lofi Hip Hop Radio',
+    url: 'https://www.youtube.com/watch?v=28KRPhVzCus',
   },
   {
-    id: 'jazz-hop',
-    name: 'The Jazz Hop Café',
-    url: 'https://www.youtube.com/watch?v=9xkV2H5aRlk',
+    id: 'jazz-lofi-radio',
+    name: 'Jazz Lofi Radio',
+    url: 'https://www.youtube.com/watch?v=HuFYqnbVbzY',
   },
   {
     id: 'college-music',
@@ -43,23 +43,32 @@ const DEFAULT_VOLUME = 50;
 const STORAGE_KEY_VOLUME = 'player-volume';
 const STORAGE_KEY_STREAM = 'player-stream';
 
+const INITIAL_STATE: PlayerState = {
+  playing: false,
+  volume: DEFAULT_VOLUME,
+  currentStream: DEFAULT_STREAMS[0],
+  error: null,
+};
+
 export function usePlayer() {
-  const [state, setState] = useState<PlayerState>(() => {
-    // Load persisted volume and stream from localStorage
+  const [state, setState] = useState<PlayerState>(INITIAL_STATE);
+
+  const playerRef = useRef<HTMLVideoElement | null>(null);
+
+  // Hydrate from localStorage after mount (same initial render on server and client to avoid hydration mismatch)
+  useEffect(() => {
+    /* eslint-disable react-hooks/set-state-in-effect -- hydrate from localStorage after mount */
     const savedVolume = getItem<number>(STORAGE_KEY_VOLUME) ?? DEFAULT_VOLUME;
     const savedStreamId = getItem<string>(STORAGE_KEY_STREAM);
     const savedStream =
       DEFAULT_STREAMS.find(s => s.id === savedStreamId) ?? DEFAULT_STREAMS[0];
-
-    return {
-      playing: false,
+    setState(prev => ({
+      ...prev,
       volume: savedVolume,
       currentStream: savedStream,
-      error: null,
-    };
-  });
-
-  const playerRef = useRef<HTMLVideoElement | null>(null);
+    }));
+    /* eslint-enable react-hooks/set-state-in-effect */
+  }, []);
 
   // Persist volume changes
   useEffect(() => {

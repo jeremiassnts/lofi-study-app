@@ -68,6 +68,7 @@ export function LofiPlayerSection() {
             playerRef={player.playerRef}
             onError={player.handleError}
             onReady={player.handleReady}
+            onVideoClick={player.togglePlayPause}
           />
           <PlayerControls
             playing={player.playing}
