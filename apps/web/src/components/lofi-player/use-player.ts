@@ -59,7 +59,7 @@ export function usePlayer() {
     };
   });
 
-  const playerRef = useRef<any>(null);
+  const playerRef = useRef<HTMLVideoElement | null>(null);
 
   // Persist volume changes
   useEffect(() => {
@@ -96,7 +96,7 @@ export function usePlayer() {
     }));
   }, []);
 
-  const handleError = useCallback((error: any) => {
+  const handleError = useCallback((error: unknown) => {
     console.error('Player error:', error);
     setState(prev => ({
       ...prev,

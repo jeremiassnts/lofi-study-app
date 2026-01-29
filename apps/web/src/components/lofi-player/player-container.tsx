@@ -11,8 +11,8 @@ interface PlayerContainerProps {
   url: string;
   playing: boolean;
   volume: number;
-  playerRef: RefObject<any>;
-  onError: (error: any) => void;
+  playerRef: RefObject<HTMLVideoElement | null>;
+  onError: (error: unknown) => void;
   onReady: () => void;
 }
 
@@ -41,7 +41,7 @@ export function PlayerContainer({
       <Suspense fallback={<PlayerLoadingFallback />}>
         <div className="relative w-full aspect-video rounded-lg overflow-hidden">
           <ReactPlayer
-            ref={playerRef}
+            ref={playerRef as RefObject<HTMLVideoElement>}
             url={url}
             playing={playing}
             volume={volume / 100}

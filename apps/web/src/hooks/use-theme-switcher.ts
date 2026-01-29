@@ -1,44 +1,48 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useSyncExternalStore } from 'react';
 import { getItem, setItem } from '@/lib/storage';
-import { themes, getThemeById, DEFAULT_THEME_ID, type Theme } from '@/lib/themes.config';
+import { themes, getThemeById, DEFAULT_THEME_ID } from '@/lib/themes.config';
 
 const THEME_STORAGE_KEY = 'theme';
 
+const themeListeners = new Set<() => void>();
+
+function getThemeSnapshot(): string {
+  if (typeof window === 'undefined') return DEFAULT_THEME_ID;
+  const saved = getItem<string>(THEME_STORAGE_KEY);
+  return saved && getThemeById(saved) ? saved : DEFAULT_THEME_ID;
+}
+
+function subscribeToTheme(listener: () => void) {
+  themeListeners.add(listener);
+  return () => themeListeners.delete(listener);
+}
+
 /**
  * Custom hook for managing multi-theme switching
- * 
+ *
  * Handles:
- * - Loading theme from localStorage
+ * - Loading theme from localStorage (via useSyncExternalStore, no setState in effect)
  * - Applying theme via CSS custom properties
  * - Persisting theme selection
  * - Smooth theme transitions
  */
 export function useThemeSwitcher() {
-  const [currentThemeId, setCurrentThemeId] = useState<string>(DEFAULT_THEME_ID);
-  const [mounted, setMounted] = useState(false);
-
-  // Load theme from storage on mount
-  useEffect(() => {
-    const savedThemeId = getItem<string>(THEME_STORAGE_KEY);
-    if (savedThemeId && getThemeById(savedThemeId)) {
-      setCurrentThemeId(savedThemeId);
-    }
-    setMounted(true);
-  }, []);
+  const currentThemeId = useSyncExternalStore(
+    subscribeToTheme,
+    getThemeSnapshot,
+    () => DEFAULT_THEME_ID,
+  );
 
   // Apply theme to CSS variables
   useEffect(() => {
-    if (!mounted) return;
-
     const theme = getThemeById(currentThemeId);
     if (!theme) return;
 
     const root = document.documentElement;
     const { colors } = theme;
 
-    // Apply all color variables with smooth transition
     root.style.setProperty('--background', colors.background);
     root.style.setProperty('--foreground', colors.foreground);
     root.style.setProperty('--card', colors.card);
@@ -71,17 +75,20 @@ export function useThemeSwitcher() {
     root.style.setProperty('--sidebar-border', colors.sidebarBorder);
     root.style.setProperty('--sidebar-ring', colors.sidebarRing);
 
-    // Persist to localStorage
     setItem(THEME_STORAGE_KEY, currentThemeId);
-  }, [currentThemeId, mounted]);
+  }, [currentThemeId]);
 
   const setTheme = (themeId: string) => {
     if (getThemeById(themeId)) {
-      setCurrentThemeId(themeId);
+      setItem(THEME_STORAGE_KEY, themeId);
+      themeListeners.forEach((l) => l());
     }
   };
 
   const currentTheme = getThemeById(currentThemeId) || themes[0];
+
+  // useSyncExternalStore returns correct value on first client render, so no "mounted" delay needed
+  const mounted = typeof window !== 'undefined';
 
   return {
     themes,

@@ -3,7 +3,6 @@
 import { useState } from 'react';
 import { ChevronDown, ChevronRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { cn } from '@/lib/utils';
 import type { Task, Group } from '@/types/task';
 import { TaskItem } from './task-item';
 

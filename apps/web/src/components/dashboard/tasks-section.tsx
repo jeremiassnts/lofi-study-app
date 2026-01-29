@@ -15,7 +15,6 @@ export function TasksSection() {
   const [showGroupManager, setShowGroupManager] = useState(false);
 
   const {
-    tasks,
     groups,
     filter,
     setFilter,

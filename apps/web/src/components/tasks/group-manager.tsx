@@ -40,7 +40,7 @@ export function GroupManager({
   onOpenChange,
   groups,
   onAddGroup,
-  onUpdateGroup,
+  onUpdateGroup: _onUpdateGroup,
   onDeleteGroup,
 }: GroupManagerProps) {
   const [newGroupName, setNewGroupName] = useState('');

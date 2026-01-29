@@ -1,7 +1,6 @@
 'use client';
 
 import { type Theme } from '@/lib/themes.config';
-import { CheckCircle, CheckCircle2 } from 'lucide-react';
 
 interface ThemePreviewProps {
   theme: Theme;

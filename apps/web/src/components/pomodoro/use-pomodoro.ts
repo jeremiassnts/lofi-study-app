@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { getItem, setItem } from '@/lib/storage';
-import type { PomodoroState, PomodoroConfig, TimerState } from '@/types/pomodoro';
+import type { PomodoroConfig, TimerState } from '@/types/pomodoro';
 
 const DEFAULT_CONFIG: PomodoroConfig = {
   focusDuration: 25,
@@ -11,29 +11,84 @@ const DEFAULT_CONFIG: PomodoroConfig = {
   autoStartBreak: false,
 };
 
+function getInitialConfig(): PomodoroConfig {
+  if (typeof window === 'undefined') return DEFAULT_CONFIG;
+  const saved = getItem<PomodoroConfig>('pomodoro-config');
+  return saved ?? DEFAULT_CONFIG;
+}
+
 export function usePomodoro() {
   const [state, setState] = useState<TimerState>('idle');
-  const [timeRemaining, setTimeRemaining] = useState(25 * 60);
-  const [config, setConfig] = useState<PomodoroConfig>(DEFAULT_CONFIG);
+  const initialConfig = getInitialConfig();
+  const [timeRemaining, setTimeRemaining] = useState(initialConfig.focusDuration * 60);
+  const [config, setConfig] = useState<PomodoroConfig>(initialConfig);
   const [justCompleted, setJustCompleted] = useState(false);
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
   const notificationPermission = useRef<NotificationPermission>('default');
 
-  // Load config from storage on mount
+  // Request notification permission on mount (no setState)
   useEffect(() => {
-    const savedConfig = getItem<PomodoroConfig>('pomodoro-config');
-    if (savedConfig) {
-      setConfig(savedConfig);
-      setTimeRemaining(savedConfig.focusDuration * 60);
-    }
-
-    // Request notification permission (handled gracefully; no toast on denied to avoid repeat on load)
     if (typeof window !== 'undefined' && 'Notification' in window) {
       Notification.requestPermission().then((permission) => {
         notificationPermission.current = permission;
       });
     }
   }, []);
+
+  /**
+   * Plays completion sound using Web Audio API
+   */
+  const playCompletionSound = useCallback(() => {
+    try {
+      if (typeof window === 'undefined') return;
+      const Ctor = window.AudioContext || (window as Window & { webkitAudioContext?: typeof window.AudioContext }).webkitAudioContext;
+      if (!Ctor) return;
+      const audioContext = new Ctor();
+      const oscillator = audioContext.createOscillator();
+      const gainNode = audioContext.createGain();
+
+      oscillator.connect(gainNode);
+      gainNode.connect(audioContext.destination);
+
+      oscillator.frequency.value = 800;
+      oscillator.type = 'sine';
+
+      gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
+      gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.5);
+
+      oscillator.start(audioContext.currentTime);
+      oscillator.stop(audioContext.currentTime + 0.5);
+    } catch (error) {
+      console.error('Error playing sound:', error);
+    }
+  }, []);
+
+  /**
+   * Handles timer completion
+   */
+  const handleTimerComplete = useCallback(() => {
+    if (config.soundEnabled) {
+      playCompletionSound();
+    }
+
+    if (notificationPermission.current === 'granted') {
+      const title = state === 'running' ? 'Focus session complete!' : 'Break time is over!';
+      const body = state === 'running'
+        ? 'Time for a break. Great work!'
+        : 'Ready to focus again?';
+      new Notification(title, { body, icon: '/favicon.ico' });
+    }
+
+    setJustCompleted(true);
+
+    if (state === 'running' && config.autoStartBreak) {
+      setState('break');
+      setTimeRemaining(config.breakDuration * 60);
+    } else {
+      setState('idle');
+      setTimeRemaining(state === 'running' ? config.breakDuration * 60 : config.focusDuration * 60);
+    }
+  }, [state, config, playCompletionSound]);
 
   // Timer countdown logic
   useEffect(() => {
@@ -59,63 +114,7 @@ export function usePomodoro() {
         clearInterval(intervalRef.current);
       }
     };
-  }, [state]);
-
-  /**
-   * Handles timer completion
-   */
-  const handleTimerComplete = useCallback(() => {
-    // Play sound if enabled
-    if (config.soundEnabled) {
-      playCompletionSound();
-    }
-
-    // Show notification
-    if (notificationPermission.current === 'granted') {
-      const title = state === 'running' ? 'Focus session complete!' : 'Break time is over!';
-      const body = state === 'running' 
-        ? 'Time for a break. Great work!' 
-        : 'Ready to focus again?';
-      
-      new Notification(title, { body, icon: '/favicon.ico' });
-    }
-
-    setJustCompleted(true);
-
-    // Auto-start break or reset
-    if (state === 'running' && config.autoStartBreak) {
-      setState('break');
-      setTimeRemaining(config.breakDuration * 60);
-    } else {
-      setState('idle');
-      setTimeRemaining(state === 'running' ? config.breakDuration * 60 : config.focusDuration * 60);
-    }
-  }, [state, config]);
-
-  /**
-   * Plays completion sound using Web Audio API
-   */
-  const playCompletionSound = () => {
-    try {
-      const audioContext = new (window.AudioContext || (window as any).webkitAudioContext)();
-      const oscillator = audioContext.createOscillator();
-      const gainNode = audioContext.createGain();
-
-      oscillator.connect(gainNode);
-      gainNode.connect(audioContext.destination);
-
-      oscillator.frequency.value = 800;
-      oscillator.type = 'sine';
-
-      gainNode.gain.setValueAtTime(0.3, audioContext.currentTime);
-      gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.5);
-
-      oscillator.start(audioContext.currentTime);
-      oscillator.stop(audioContext.currentTime + 0.5);
-    } catch (error) {
-      console.error('Error playing sound:', error);
-    }
-  };
+  }, [state, handleTimerComplete]);
 
   /**
    * Starts or resumes the timer

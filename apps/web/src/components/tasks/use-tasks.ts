@@ -13,29 +13,31 @@ const DEFAULT_GROUPS: Group[] = [
   { id: 'default', name: 'General', color: '#6366f1' },
 ];
 
+function getInitialTasks(): Task[] {
+  if (typeof window === 'undefined') return [];
+  return getItem<Task[]>(STORAGE_KEY_TASKS) ?? [];
+}
+
+function getInitialGroups(): Group[] {
+  if (typeof window === 'undefined') return DEFAULT_GROUPS;
+  const saved = getItem<Group[]>(STORAGE_KEY_GROUPS);
+  return saved && saved.length > 0 ? saved : DEFAULT_GROUPS;
+}
+
 export function useTasks() {
-  const [tasks, setTasks] = useState<Task[]>([]);
-  const [groups, setGroups] = useState<Group[]>(DEFAULT_GROUPS);
+  const [tasks, setTasks] = useState<Task[]>(getInitialTasks);
+  const [groups, setGroups] = useState<Group[]>(getInitialGroups);
   const [filter, setFilter] = useState<string>('all');
-  const [isLoading, setIsLoading] = useState(true);
+  const isLoading = typeof window === 'undefined';
 
-  // Load data from storage on mount
+  // Ensure default groups are persisted when none in storage (client-only)
   useEffect(() => {
-    const savedTasks = getItem<Task[]>(STORAGE_KEY_TASKS);
-    const savedGroups = getItem<Group[]>(STORAGE_KEY_GROUPS);
-
-    if (savedTasks) {
-      setTasks(savedTasks);
-    }
-
-    if (savedGroups && savedGroups.length > 0) {
-      setGroups(savedGroups);
-    } else {
+    if (typeof window === 'undefined') return;
+    const saved = getItem<Group[]>(STORAGE_KEY_GROUPS);
+    if (!saved || saved.length === 0) {
       const ok = setItem(STORAGE_KEY_GROUPS, DEFAULT_GROUPS);
       if (!ok) toast.error('Could not save groups. Storage may be full or disabled.');
     }
-
-    setIsLoading(false);
   }, []);
 
   // Sync tasks to storage whenever they change

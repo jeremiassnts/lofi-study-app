@@ -18,7 +18,7 @@ interface TaskListProps {
 export function TaskList({
   tasks,
   groups,
-  filter,
+  filter: _filter,
   onToggle,
   onUpdate,
   onDelete,
