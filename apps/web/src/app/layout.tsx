@@ -4,6 +4,7 @@ import { Poppins } from "next/font/google";
 
 import "../index.css";
 import Header from "@/components/header";
+import Footer from "@/components/footer";
 import Providers from "@/components/providers";
 
 const poppins = Poppins({
@@ -27,9 +28,10 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body className={`${poppins.variable} antialiased`}>
         <Providers>
-          <div className="grid grid-rows-[auto_1fr] h-svh">
+          <div className="grid grid-rows-[auto_1fr_auto] min-h-svh">
             <Header />
-            {children}
+            <main className="min-h-0">{children}</main>
+            <Footer />
           </div>
         </Providers>
       </body>
