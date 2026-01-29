@@ -1,5 +1,10 @@
 'use client';
 
+/**
+ * Pomodoro timer hook: state machine, countdown, notifications, and persistence.
+ * @module use-pomodoro
+ */
+
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { getItem, setItem } from '@/lib/storage';
 import type { PomodoroConfig, TimerState } from '@/types/pomodoro';
@@ -17,6 +22,12 @@ function getInitialConfig(): PomodoroConfig {
   return saved ?? DEFAULT_CONFIG;
 }
 
+/**
+ * Pomodoro timer hook. Manages idle | running | paused | break state,
+ * countdown, Web Audio completion sound, browser notifications, and
+ * config persistence (localStorage key: lofi-study:pomodoro-config).
+ * @returns Timer state, actions (start, pause, reset, startBreak), config, and helpers (formatTime, getProgress).
+ */
 export function usePomodoro() {
   const [state, setState] = useState<TimerState>('idle');
   const initialConfig = getInitialConfig();

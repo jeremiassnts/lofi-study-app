@@ -1,5 +1,10 @@
 'use client';
 
+/**
+ * Task and group CRUD hook with localStorage persistence.
+ * @module use-tasks
+ */
+
 import { useState, useEffect, useCallback } from 'react';
 import { toast } from 'sonner';
 import { getItem, setItem } from '@/lib/storage';
@@ -8,11 +13,17 @@ import type { Task, Group } from '@/types/task';
 const STORAGE_KEY_TASKS = 'tasks';
 const STORAGE_KEY_GROUPS = 'groups';
 
-// Default groups
+/** Default group used when none exist in storage. */
 const DEFAULT_GROUPS: Group[] = [
   { id: 'default', name: 'General', color: '#6366f1' },
 ];
 
+/**
+ * Tasks and groups management. Hydrates from localStorage after mount,
+ * syncs tasks/groups on change, and surfaces storage failures via toasts.
+ * Storage keys: lofi-study:tasks, lofi-study:groups.
+ * @returns Tasks, groups, filter state, CRUD actions, and helpers (getFilteredTasks, getTasksByGroup, getGroupById).
+ */
 export function useTasks() {
   const [tasks, setTasks] = useState<Task[]>(() => []);
   const [groups, setGroups] = useState<Group[]>(() => DEFAULT_GROUPS);

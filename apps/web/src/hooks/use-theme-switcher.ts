@@ -1,9 +1,15 @@
 'use client';
 
+/**
+ * Multi-theme switcher: applies theme via CSS custom properties and persists to localStorage.
+ * @module use-theme-switcher
+ */
+
 import { useEffect, useState, useSyncExternalStore } from 'react';
 import { getItem, setItem } from '@/lib/storage';
 import { themes, getThemeById, DEFAULT_THEME_ID } from '@/lib/themes.config';
 
+/** localStorage key for current theme ID (no prefix; uses app prefix in storage.ts). */
 const THEME_STORAGE_KEY = 'theme';
 
 const themeListeners = new Set<() => void>();
@@ -20,12 +26,10 @@ function subscribeToTheme(listener: () => void) {
 }
 
 /**
- * Custom hook for managing multi-theme switching
- *
- * Handles:
- * - Loading theme from localStorage (useSyncExternalStore)
- * - Applying theme via CSS custom properties
- * - mounted: false on server and first client render to avoid hydration mismatch (Radix injects attributes on client)
+ * Multi-theme switcher. Loads theme from localStorage (useSyncExternalStore),
+ * applies theme colors to :root CSS variables, and persists selection.
+ * Storage key: lofi-study:theme. mounted is false until after hydration to avoid Radix dropdown mismatch.
+ * @returns themes, currentTheme, currentThemeId, setTheme, mounted.
  */
 export function useThemeSwitcher() {
   const currentThemeId = useSyncExternalStore(

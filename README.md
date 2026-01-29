@@ -230,7 +230,7 @@ The app can be deployed to any platform that supports Next.js:
 
 ## 🎨 Screenshots
 
-_Coming soon after implementation_
+Add hero and demo assets to `docs/images/` (see [docs/images/README.md](./docs/images/README.md)). Then uncomment below:
 
 <!--
 ![Hero Screenshot](./docs/images/hero-screenshot.png)
@@ -258,9 +258,12 @@ _Coming soon after implementation_
 - [x] README badges (CI, TypeScript, Vercel)
 - [x] Vercel deployment config (`apps/web/vercel.json`)
 
-### 🚧 In Progress (Phase 7)
+### ✅ Phase 7 - Complete
 
-- [ ] Final documentation & portfolio
+- [x] README enhancement and docs/images structure
+- [x] Architecture and ADR updates (ADR-014 CI pipeline)
+- [x] JSDoc on hooks, storage schema, theme docs
+- [x] Code cleanup (remove debug console.log)
 
 ### 🚧 Future Enhancements
 

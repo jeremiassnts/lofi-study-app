@@ -1,5 +1,10 @@
 'use client';
 
+/**
+ * Lofi player state hook: play/pause, volume, stream selection, and persistence.
+ * @module use-player
+ */
+
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { getItem, setItem } from '@/lib/storage';
 
@@ -50,6 +55,11 @@ const INITIAL_STATE: PlayerState = {
   error: null,
 };
 
+/**
+ * YouTube lofi player state. Hydrates volume and stream from localStorage
+ * after mount; persists on change. Keys: lofi-study:player-volume, lofi-study:player-stream.
+ * @returns playing, volume, currentStream, error, streams, playerRef, and controls (play, pause, setVolume, setStream, handleError, handleReady).
+ */
 export function usePlayer() {
   const [state, setState] = useState<PlayerState>(INITIAL_STATE);
 

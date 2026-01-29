@@ -369,6 +369,33 @@ Use React state with manual validation instead of `@tanstack/react-form` with zo
 
 ---
 
+## ADR-014: GitHub Actions CI Pipeline (Lint, Type Check, Build)
+
+**Date**: 2026-01-29  
+**Status**: Accepted
+
+### Context
+The project needed automated quality checks and build verification before deployment (Milestone 6).
+
+### Decision
+Add a single GitHub Actions workflow that runs on push/PR to main: one job for lint + type check, a second job for build (with Turbo cache). No deploy step in workflow; Vercel handles deployment via GitHub integration.
+
+### Consequences
+
+**Positive**:
+- Catches lint and type errors before merge
+- Build job ensures the app compiles
+- Turbo cache speeds up CI
+- Clear separation: CI validates, Vercel deploys
+
+**Negative**:
+- No automated tests in pipeline (see ADR-008)
+- Visual assets and Vercel setup remain manual
+
+**Implementation**: `.github/workflows/` (e.g. `ci.yml` or `deploy.yml`), pnpm cache, `check-types` in apps/web and packages/env, README badges.
+
+---
+
 ## Template for Future ADRs
 
 Copy this template when adding new decisions:
@@ -463,4 +490,4 @@ Milestone 5 (Polish & Animations) required error handling (task storage, player 
 
 ---
 
-**Last Updated**: 2026-01-28
+**Last Updated**: 2026-01-29

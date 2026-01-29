@@ -30,7 +30,6 @@ export function TimerControls({
   lastState,
 }: TimerControlsProps) {
   function start() {
-    console.log(lastState);
     if (!lastState || lastState === 'break') {
       onStart();
     } else {

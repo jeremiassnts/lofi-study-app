@@ -1,6 +1,14 @@
 /**
- * Type-safe localStorage wrapper
- * Provides abstraction layer for future migration to IndexedDB
+ * Type-safe localStorage wrapper.
+ * Provides abstraction layer for future migration to IndexedDB.
+ *
+ * Storage schema (all keys prefixed with `lofi-study:`):
+ * - tasks: Task[]
+ * - groups: Group[]
+ * - pomodoro-config: PomodoroConfig
+ * - theme: string (theme id)
+ * - player-volume: number
+ * - player-stream: string (stream id)
  */
 
 const STORAGE_PREFIX = 'lofi-study:';
