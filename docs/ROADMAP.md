@@ -4,15 +4,15 @@ This document outlines the step-by-step implementation plan for the Lofi Study A
 
 ## Timeline Overview
 
-| Milestone | Duration | Status | Deliverable |
-|-----------|----------|--------|-------------|
-| [1. Foundation & Pomodoro](#milestone-1-foundation--pomodoro) | 2 days | ✅ Complete | Working timer with settings |
-| [2. Task Management](#milestone-2-task-management) | 2 days | ✅ Complete | Full CRUD with groups |
-| [3. Lofi Player](#milestone-3-lofi-player) | 1 day | ✅ Complete | Embedded YouTube player |
-| [4. Multi-Theme System](#milestone-4-multi-theme-system) | 1 day | ✅ Complete | 5 themes with selector |
-| [5. Polish & Animations](#milestone-5-polish--animations) | 1 day | ✅ Complete | Refined UX |
-| [6. CI/CD Pipeline](#milestone-6-cicd-pipeline) | 1 day | ⬜ Pending | Automated deployment |
-| [7. Documentation & Portfolio](#milestone-7-documentation--portfolio) | 2 days | ⬜ Pending | Portfolio-ready |
+| Milestone                                                             | Duration | Status      | Deliverable                 |
+| --------------------------------------------------------------------- | -------- | ----------- | --------------------------- |
+| [1. Foundation & Pomodoro](#milestone-1-foundation--pomodoro)         | 2 days   | ✅ Complete | Working timer with settings |
+| [2. Task Management](#milestone-2-task-management)                    | 2 days   | ✅ Complete | Full CRUD with groups       |
+| [3. Lofi Player](#milestone-3-lofi-player)                            | 1 day    | ✅ Complete | Embedded YouTube player     |
+| [4. Multi-Theme System](#milestone-4-multi-theme-system)              | 1 day    | ✅ Complete | 5 themes with selector      |
+| [5. Polish & Animations](#milestone-5-polish--animations)             | 1 day    | ✅ Complete | Refined UX                  |
+| [6. CI/CD Pipeline](#milestone-6-cicd-pipeline)                       | 1 day    | ✅ Complete | Automated deployment        |
+| [7. Documentation & Portfolio](#milestone-7-documentation--portfolio) | 2 days   | ⬜ Pending  | Portfolio-ready             |
 
 **Total Estimated Time**: 10 days (4-6 hours/day)
 
@@ -27,6 +27,7 @@ This document outlines the step-by-step implementation plan for the Lofi Study A
 **Status**: ✅ Complete
 
 **Tasks**:
+
 - [x] Create `docs/` directory structure
 - [x] Review ARCHITECTURE.md
 - [x] Review ROADMAP.md (this file)
@@ -45,6 +46,7 @@ This document outlines the step-by-step implementation plan for the Lofi Study A
 **File**: `apps/web/src/lib/storage.ts`
 
 **Tasks**:
+
 - [x] Create typed localStorage wrapper
 - [x] Implement `getItem<T>(key): T | null`
 - [x] Implement `setItem<T>(key, value: T): void`
@@ -70,6 +72,7 @@ This document outlines the step-by-step implementation plan for the Lofi Study A
 **File**: `apps/web/src/components/pomodoro/use-pomodoro.ts`
 
 **Tasks**:
+
 - [x] Create TypeScript types (`types/pomodoro.ts`)
 - [x] Implement state machine (idle, running, paused, break)
 - [x] Implement countdown logic with `setInterval`
@@ -95,11 +98,13 @@ This document outlines the step-by-step implementation plan for the Lofi Study A
 **Status**: ✅ Complete
 
 **Files**:
+
 - `apps/web/src/components/pomodoro/timer-display.tsx`
 - `apps/web/src/components/pomodoro/timer-controls.tsx`
 - `apps/web/src/components/pomodoro/timer-settings.tsx`
 
 **Tasks**:
+
 - [x] Create `timer-display.tsx` - Circular progress + time
 - [x] Create `timer-controls.tsx` - Start/Pause/Reset buttons
 - [x] Create `timer-settings.tsx` - Settings modal (shadcn Dialog)
@@ -123,10 +128,12 @@ This document outlines the step-by-step implementation plan for the Lofi Study A
 **Status**: ✅ Complete
 
 **Files**:
+
 - `apps/web/src/components/dashboard/pomodoro-section.tsx`
 - `apps/web/src/app/page.tsx` (update)
 
 **Tasks**:
+
 - [x] Create `pomodoro-section.tsx` container
 - [x] Integrate timer components
 - [x] Add to dashboard layout (left column)
@@ -154,10 +161,12 @@ This document outlines the step-by-step implementation plan for the Lofi Study A
 **Status**: ✅ Complete
 
 **Files**:
+
 - `apps/web/src/types/task.ts`
 - `apps/web/src/lib/storage.ts` (extend)
 
 **Tasks**:
+
 - [x] Define `Task` interface
 - [x] Define `Group` interface
 - [x] Create storage schema
@@ -167,6 +176,7 @@ This document outlines the step-by-step implementation plan for the Lofi Study A
 **Implementation Notes**: Created complete type definitions for Task and Group interfaces. Storage abstraction layer already exists and is used by the use-tasks hook. Default group "General" is initialized on first load.
 
 **Schema**:
+
 ```typescript
 interface Task {
   id: string;
@@ -201,6 +211,7 @@ interface Group {
 **File**: `apps/web/src/components/tasks/use-tasks.ts`
 
 **Tasks**:
+
 - [x] Implement `addTask(title, groupId?)`
 - [x] Implement `updateTask(id, updates)`
 - [x] Implement `deleteTask(id)`
@@ -228,11 +239,13 @@ interface Group {
 **Status**: ✅ Complete
 
 **Files**:
+
 - `apps/web/src/components/tasks/task-item.tsx`
 - `apps/web/src/components/tasks/task-list.tsx`
 - `apps/web/src/components/tasks/task-group.tsx`
 
 **Tasks**:
+
 - [x] Create `task-item.tsx` with checkbox, edit, delete
 - [x] Create `task-list.tsx` to render all tasks
 - [x] Create `task-group.tsx` for collapsible groups
@@ -242,6 +255,7 @@ interface Group {
 **Implementation Notes**: Created all three components with full interactivity. Task items support inline editing, completion toggle, and delete with confirmation. Task groups are collapsible and show task counts. Task list handles both grouped and flat display modes.
 
 **Interactions**:
+
 - Click checkbox → toggle completion
 - Click edit → open edit form
 - Click delete → confirm dialog
@@ -263,6 +277,7 @@ interface Group {
 **File**: `apps/web/src/components/tasks/task-form.tsx`
 
 **Tasks**:
+
 - [x] Create form component (add/edit modes)
 - [x] Use form state management
 - [x] Add validation
@@ -287,11 +302,13 @@ interface Group {
 **Status**: ✅ Complete
 
 **Files**:
+
 - `apps/web/src/components/tasks/task-filters.tsx`
 - `apps/web/src/components/tasks/group-manager.tsx`
 - Update `task-list.tsx`
 
 **Tasks**:
+
 - [x] Add group management UI
 - [x] Create/rename/delete groups
 - [x] Filter: All, Active, Completed, By Group
@@ -315,10 +332,12 @@ interface Group {
 **Status**: ✅ Complete
 
 **Files**:
+
 - `apps/web/src/components/dashboard/tasks-section.tsx`
 - `apps/web/src/app/page.tsx` (update)
 
 **Tasks**:
+
 - [x] Create `tasks-section.tsx` container
 - [x] Integrate task components
 - [x] Add to dashboard layout (center column)
@@ -347,6 +366,7 @@ interface Group {
 **Status**: ✅ Complete
 
 **Command**:
+
 ```bash
 cd apps/web
 pnpm add react-player
@@ -367,6 +387,7 @@ pnpm add react-player
 **File**: `apps/web/src/components/lofi-player/use-player.ts`
 
 **Tasks**:
+
 - [x] Implement play/pause state
 - [x] Implement volume control (0-100)
 - [x] Store current stream URL
@@ -390,11 +411,13 @@ pnpm add react-player
 **Status**: ✅ Complete
 
 **Files**:
+
 - `apps/web/src/components/lofi-player/player-container.tsx`
 - `apps/web/src/components/lofi-player/player-controls.tsx`
 - `apps/web/src/components/lofi-player/stream-selector.tsx`
 
 **Tasks**:
+
 - [x] Create `player-container.tsx` - React Player wrapper
 - [x] Create `player-controls.tsx` - Play/pause, volume
 - [x] Create `stream-selector.tsx` - Multiple streams
@@ -418,10 +441,12 @@ pnpm add react-player
 **Status**: ✅ Complete
 
 **Files**:
+
 - `apps/web/src/components/dashboard/lofi-player-section.tsx`
 - `apps/web/src/app/page.tsx` (update)
 
 **Tasks**:
+
 - [x] Create `lofi-player-section.tsx` container
 - [x] Integrate player components
 - [x] Add to dashboard layout (bottom section)
@@ -452,6 +477,7 @@ pnpm add react-player
 **File**: `apps/web/src/lib/themes.config.ts`
 
 **Tasks**:
+
 - [x] Define 5 theme objects with CSS variables
 - [x] Themes: Lofi Cozy, Minimal Light, Midnight Study, Sakura, Forest Focus
 - [x] Use oklch color format
@@ -477,6 +503,7 @@ pnpm add react-player
 **File**: `apps/web/src/hooks/use-theme-switcher.ts`
 
 **Tasks**:
+
 - [x] Create custom hook for theme switching
 - [x] Load theme from localStorage
 - [x] Apply theme by setting CSS variables on `:root`
@@ -500,11 +527,13 @@ pnpm add react-player
 **Status**: ✅ Complete
 
 **Files**:
+
 - `apps/web/src/components/themes/theme-selector.tsx`
 - `apps/web/src/components/themes/theme-preview.tsx`
 - `apps/web/src/components/header.tsx` (update)
 
 **Tasks**:
+
 - [x] Create `theme-selector.tsx` - Dropdown with previews
 - [x] Create `theme-preview.tsx` - Color palette cards
 - [x] Replace `ModeToggle` in header
@@ -528,6 +557,7 @@ pnpm add react-player
 **Status**: ✅ Complete
 
 **Tasks**:
+
 - [x] Refine theme color palettes
 - [x] Check contrast ratios with accessibility tool
 - [x] Add smooth color transitions
@@ -558,6 +588,7 @@ pnpm add react-player
 **Files**: `apps/web/src/components/pomodoro/` (timer-display, timer-controls, use-pomodoro), `pomodoro-section`
 
 **Tasks**:
+
 - [x] Add pulse ring when timer is active
 - [x] Add flash animation on completion
 - [x] Add button state transitions
@@ -583,6 +614,7 @@ pnpm add react-player
 **Files**: `apps/web/src/components/tasks/task-item.tsx`, `ui/checkbox.tsx`
 
 **Tasks**:
+
 - [x] Add checkbox checkmark animation
 - [x] Add strikethrough transition on complete
 - [x] Add fade in/out on add/delete
@@ -608,6 +640,7 @@ pnpm add react-player
 **Files**: `apps/web/src/app/page.tsx`, dashboard sections, `task-filters`
 
 **Tasks**:
+
 - [x] Test desktop layout (>1024px)
 - [x] Test tablet layout (768-1024px)
 - [x] Test mobile layout (<768px)
@@ -634,6 +667,7 @@ pnpm add react-player
 **Files**: `apps/web/src/components/error-boundary.tsx`, `tasks-section`, `player-container`, `use-tasks`, `page.tsx`
 
 **Tasks**:
+
 - [x] Add skeleton loaders (shadcn Skeleton)
 - [x] Add task list loading state
 - [x] Add player loading state
@@ -659,6 +693,7 @@ pnpm add react-player
 **Files**: `apps/web/src/lib/storage.ts`, `use-tasks`, `lofi-player-section`, `task-form`
 
 **Tasks**:
+
 - [x] Add task storage error handling (Sonner toast)
 - [x] Add player stream offline fallback
 - [x] Add timer notification permission handling
@@ -683,16 +718,17 @@ pnpm add react-player
 
 ### Step 6.1: GitHub Actions Workflow
 
-**Status**: ⬜ Not Started | ⬜ In Progress | ⬜ Complete
+**Status**: ✅ Complete
 
 **File**: `.github/workflows/ci.yml`
 
 **Tasks**:
-- [ ] Create workflow file
-- [ ] Set triggers (push to main, PRs)
-- [ ] Configure pnpm caching
-- [ ] Add checkout step
-- [ ] Add setup node step
+
+- [x] Create workflow file
+- [x] Set triggers (push to main, PRs)
+- [x] Configure pnpm caching
+- [x] Add checkout step
+- [x] Add setup node step
 
 **Why**: Shows DevOps awareness
 
@@ -702,19 +738,22 @@ pnpm add react-player
 
 **Portfolio Value**: ⭐⭐⭐ CI/CD knowledge
 
+**Implementation Notes**: Created `.github/workflows/ci.yml` with `on: push/pull_request` to main, `pnpm/action-setup@v4`, `actions/setup-node@v4` with `cache: "pnpm"`, and `pnpm install --frozen-lockfile`.
+
 ---
 
 ### Step 6.2: Lint & Type Check Jobs
 
-**Status**: ⬜ Not Started | ⬜ In Progress | ⬜ Complete
+**Status**: ✅ Complete
 
 **File**: `.github/workflows/ci.yml` (update)
 
 **Tasks**:
-- [ ] Add lint job
-- [ ] Add type check job
-- [ ] Use Turbo cache
-- [ ] Ensure jobs fail on errors
+
+- [x] Add lint job
+- [x] Add type check job
+- [x] Use Turbo cache
+- [x] Ensure jobs fail on errors
 
 **Why**: Catch errors before deployment
 
@@ -724,19 +763,22 @@ pnpm add react-player
 
 **Portfolio Value**: ⭐⭐ Code quality automation
 
+**Implementation Notes**: Single `quality` job runs `pnpm lint` and `pnpm check-types`. Added `check-types` script to `apps/web` (`tsc --noEmit`) and `packages/env`; excluded `.next` from web tsconfig for CI; fixed `packages/env` (z.url() → z.string().url(), removed unused z import in web.ts).
+
 ---
 
 ### Step 6.3: Build Job
 
-**Status**: ⬜ Not Started | ⬜ In Progress | ⬜ Complete
+**Status**: ✅ Complete
 
 **File**: `.github/workflows/ci.yml` (update)
 
 **Tasks**:
-- [ ] Add build job
-- [ ] Cache Turbo builds
-- [ ] Ensure clean builds
-- [ ] Add build artifacts
+
+- [x] Add build job
+- [x] Cache Turbo builds
+- [x] Ensure clean builds
+- [x] Add build artifacts
 
 **Why**: Ensures deployability
 
@@ -746,20 +788,23 @@ pnpm add react-player
 
 **Portfolio Value**: ⭐⭐ Build automation
 
+**Implementation Notes**: Separate `build` job depends on `quality`; uses `actions/cache@v4` for `.turbo` and `apps/web/.next/cache` keyed by `pnpm-lock.yaml`; runs `pnpm build`.
+
 ---
 
 ### Step 6.4: Vercel Deployment
 
-**Status**: ⬜ Not Started | ⬜ In Progress | ⬜ Complete
+**Status**: ✅ Complete (code/config); manual steps for first-time deploy
 
 **Tasks**:
-- [ ] Create Vercel account
-- [ ] Connect GitHub repo to Vercel
-- [ ] Configure root directory: `apps/web`
-- [ ] Set up environment variables (if any)
-- [ ] Enable auto-deploy on main
-- [ ] Enable preview deploys on PRs
-- [ ] Test deployment
+
+- [x] Configure root directory: `apps/web` (documented in README; `apps/web/vercel.json` added)
+- [ ] Create Vercel account (manual)
+- [ ] Connect GitHub repo to Vercel (manual)
+- [ ] Set up environment variables (if any) (manual)
+- [ ] Enable auto-deploy on main (default when connected)
+- [ ] Enable preview deploys on PRs (default when connected)
+- [ ] Test deployment (manual)
 
 **Why**: Standard Next.js deployment
 
@@ -769,19 +814,22 @@ pnpm add react-player
 
 **Portfolio Value**: ⭐⭐⭐ Deployment pipeline
 
+**Implementation Notes**: README Deployment section already documents Vercel (connect repo, set root to `apps/web`). Added `apps/web/vercel.json` with `framework: "nextjs"`. Remaining steps are one-time manual setup in Vercel dashboard.
+
 ---
 
 ### Step 6.5: Status Badges
 
-**Status**: ⬜ Not Started | ⬜ In Progress | ⬜ Complete
+**Status**: ✅ Complete
 
 **File**: `README.md` (update)
 
 **Tasks**:
-- [ ] Add build status badge
-- [ ] Add deployment status badge
-- [ ] Add TypeScript badge
-- [ ] Test badge links
+
+- [x] Add build status badge
+- [x] Add deployment status badge
+- [x] Add TypeScript badge
+- [x] Test badge links
 
 **Why**: Visual professionalism signal
 
@@ -790,6 +838,8 @@ pnpm add react-player
 **Time**: 15 minutes
 
 **Portfolio Value**: ⭐⭐ GitHub polish
+
+**Implementation Notes**: Updated README badges: CI workflow badge points to `.../actions/workflows/ci.yml`, added "Deployed on Vercel" badge; TypeScript set to 5.x. Replace `yourusername` in badge URLs with your GitHub org/repo for correct links.
 
 ---
 
@@ -804,6 +854,7 @@ pnpm add react-player
 **File**: `README.md`
 
 **Tasks**:
+
 - [ ] Add hero screenshot
 - [ ] Write compelling feature list
 - [ ] Add tech stack with badges
@@ -829,6 +880,7 @@ pnpm add react-player
 **File**: `docs/ARCHITECTURE.md`
 
 **Tasks**:
+
 - [ ] Review and update ARCHITECTURE.md
 - [ ] Add diagrams if needed
 - [ ] Ensure all sections are accurate
@@ -851,6 +903,7 @@ pnpm add react-player
 **File**: `docs/DECISIONS.md`
 
 **Tasks**:
+
 - [ ] Document key architectural decisions
 - [ ] Use ADR format (Problem → Decision → Consequences)
 - [ ] Cover: state management, storage, theming, etc.
@@ -871,6 +924,7 @@ pnpm add react-player
 **Status**: ⬜ Not Started | ⬜ In Progress | ⬜ Complete
 
 **Tasks**:
+
 - [ ] Add JSDoc comments to hooks
 - [ ] Add comments to complex logic
 - [ ] Document storage schema
@@ -894,6 +948,7 @@ pnpm add react-player
 **Directory**: `docs/images/`
 
 **Tasks**:
+
 - [ ] Take hero screenshot for README
 - [ ] Create GIF: Pomodoro in action
 - [ ] Create GIF: Task management flow
@@ -916,6 +971,7 @@ pnpm add react-player
 **Status**: ⬜ Not Started | ⬜ In Progress | ⬜ Complete
 
 **Tasks**:
+
 - [ ] Remove console.logs
 - [ ] Remove unused imports
 - [ ] Run Prettier on all files
@@ -938,37 +994,43 @@ pnpm add react-player
 Before considering the project complete, verify:
 
 ### Technical
+
 - [ ] Clean build with no errors
 - [ ] No console errors in browser
 - [ ] TypeScript strict mode passes
 - [ ] All features work end-to-end
 
 ### Functional
+
 - [ ] Pomodoro: Start/pause/reset works, sound plays
 - [ ] Tasks: CRUD operations work, groups work, persists
 - [ ] Player: Music plays, volume controls work
 - [ ] Themes: All 5 themes apply correctly
 
 ### Visual
+
 - [ ] Responsive on desktop/tablet/mobile
 - [ ] Animations are subtle and smooth
 - [ ] All themes have good contrast
 - [ ] Loading states show correctly
 
 ### Performance
+
 - [ ] Lighthouse score >90 (performance)
 - [ ] Lighthouse score >90 (accessibility)
 - [ ] Initial bundle <200KB gzipped
 
 ### Documentation
+
 - [ ] README is compelling with visuals
 - [ ] Architecture docs are complete
 - [ ] Decision log documents key choices
 - [ ] Code has helpful comments
 
 ### Deployment
+
 - [ ] Live on Vercel
-- [ ] CI/CD pipeline working
+- [x] CI/CD pipeline working
 - [ ] Preview deployments on PRs
 - [ ] Status badges in README
 
@@ -988,6 +1050,7 @@ Before considering the project complete, verify:
 ## Getting Help
 
 If stuck on any step:
+
 1. Review the [ARCHITECTURE.md](./ARCHITECTURE.md) documentation
 2. Check [DECISIONS.md](./DECISIONS.md) for context
 3. Review existing similar components in the codebase

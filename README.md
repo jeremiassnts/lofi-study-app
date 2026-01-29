@@ -2,9 +2,10 @@
 
 > A beautiful, minimalist study companion with Pomodoro timer, task management, and ambient lofi music.
 
-[![Build Status](https://github.com/yourusername/lofi-study-app/workflows/CI/badge.svg)](https://github.com/yourusername/lofi-study-app/actions)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue.svg)](https://www.typescriptlang.org/)
-[![Next.js](https://img.shields.io/badge/Next.js-15.0-black.svg)](https://nextjs.org/)
+[![CI](https://github.com/yourusername/lofi-study-app/actions/workflows/ci.yml/badge.svg)](https://github.com/yourusername/lofi-study-app/actions/workflows/ci.yml)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.x-blue.svg)](https://www.typescriptlang.org/)
+[![Next.js](https://img.shields.io/badge/Next.js-15-black.svg)](https://nextjs.org/)
+[![Deployed on Vercel](https://img.shields.io/badge/Deployed-Vercel-black?logo=vercel)](https://vercel.com)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 [Live Demo](https://lofi-study-app.vercel.app) • [Documentation](./docs/ARCHITECTURE.md) • [Features](./docs/FEATURES.md) • [Roadmap](./docs/ROADMAP.md)
@@ -14,30 +15,35 @@
 ## ✨ Features
 
 ### 🍅 **Pomodoro Timer**
+
 - Customizable focus and break intervals
 - Browser notifications and sound alerts
 - Visual circular progress indicator
 - Persistent settings
 
 ### ✅ **Task Management**
+
 - Create, edit, delete tasks with ease
 - Organize tasks into groups (subjects, projects)
 - Filter by status and group
 - Local storage persistence (works offline)
 
 ### 🎵 **Lofi Music Player**
+
 - Embedded YouTube lofi streams
 - Multiple curated channels
 - Volume control
 - Non-intrusive, collapsible interface
 
 ### 🎨 **Multi-Theme System**
+
 - 5 carefully crafted themes
 - Light and dark modes
 - WCAG AA accessible
 - Smooth transitions
 
 ### 📱 **Fully Responsive**
+
 - Desktop, tablet, and mobile optimized
 - Progressive Web App ready
 - Touch-friendly interface
@@ -48,7 +54,7 @@
 
 ### Prerequisites
 
-- Node.js 20+ 
+- Node.js 20+
 - pnpm 10+
 
 ### Installation
@@ -83,20 +89,24 @@ pnpm start
 ## 🏗️ Tech Stack
 
 ### Core
+
 - **[Next.js 15](https://nextjs.org/)** - React framework with App Router
 - **[React 18](https://react.dev/)** - UI library
 - **[TypeScript](https://www.typescriptlang.org/)** - Type safety
 
 ### Styling
+
 - **[Tailwind CSS 4](https://tailwindcss.com/)** - Utility-first CSS
 - **[shadcn/ui](https://ui.shadcn.com/)** - Component library
 - **[next-themes](https://github.com/pacocoursey/next-themes)** - Theme management
 
 ### Build Tools
+
 - **[Turborepo](https://turbo.build/)** - Monorepo build system
 - **[pnpm](https://pnpm.io/)** - Fast, efficient package manager
 
 ### Integrations
+
 - **[React Player](https://github.com/cookpete/react-player)** - YouTube embed
 - **[Sonner](https://sonner.emilkowal.ski/)** - Toast notifications
 - **[Lucide React](https://lucide.dev/)** - Icon library
@@ -147,18 +157,23 @@ lofi-study-app/
 ## 🎯 Design Philosophy
 
 ### Minimalist & Focused
+
 Clean interface that doesn't distract from studying. Every feature serves a clear purpose.
 
 ### Cozy Aesthetic
+
 Warm colors, gentle animations, and lofi vibes create a comfortable study environment.
 
 ### Privacy-First
+
 No user accounts, no tracking, no analytics. All data stays in your browser.
 
 ### Performance-Focused
+
 Optimized bundle size, lazy loading, and Turbo caching for fast load times.
 
 ### Accessibility-Minded
+
 WCAG AA compliant, keyboard navigation, and screen reader support throughout.
 
 ---
@@ -206,6 +221,7 @@ Contributions are welcome! Please read our [Contributing Guide](./CONTRIBUTING.m
 ### Other Platforms
 
 The app can be deployed to any platform that supports Next.js:
+
 - **Netlify**: Works with Next.js plugin
 - **Railway**: Docker or Nixpacks
 - **Cloudflare Pages**: Experimental Next.js support
@@ -216,7 +232,7 @@ The app can be deployed to any platform that supports Next.js:
 
 _Coming soon after implementation_
 
-<!-- 
+<!--
 ![Hero Screenshot](./docs/images/hero-screenshot.png)
 ![Pomodoro Demo](./docs/images/pomodoro-demo.gif)
 ![Task Management](./docs/images/tasks-demo.gif)
@@ -228,6 +244,7 @@ _Coming soon after implementation_
 ## 🗺️ Roadmap
 
 ### ✅ Phase 1 - Complete
+
 - [x] Project setup and architecture
 - [x] Storage abstraction layer
 - [x] Pomodoro timer with notifications
@@ -235,14 +252,18 @@ _Coming soon after implementation_
 - [x] Sound alerts and browser notifications
 - [x] Configurable timer settings
 
-### 🚧 In Progress (Phase 2)
-- [ ] Task management with groups
-- [ ] Lofi music player
-- [ ] Multi-theme system
-- [ ] CI/CD pipeline
-- [ ] Final documentation
+### ✅ Phase 6 - Complete
+
+- [x] CI/CD pipeline (GitHub Actions: lint, type check, build)
+- [x] README badges (CI, TypeScript, Vercel)
+- [x] Vercel deployment config (`apps/web/vercel.json`)
+
+### 🚧 In Progress (Phase 7)
+
+- [ ] Final documentation & portfolio
 
 ### 🚧 Future Enhancements
+
 - [ ] Drag-and-drop task reordering
 - [ ] Pomodoro statistics and charts
 - [ ] Export/import tasks
@@ -251,6 +272,7 @@ _Coming soon after implementation_
 - [ ] Custom theme builder
 
 ### 💭 Under Consideration
+
 - [ ] User accounts and cloud sync
 - [ ] Collaborative task lists
 - [ ] Study streak tracking
@@ -278,7 +300,7 @@ This project is licensed under the MIT License - see the [LICENSE](./LICENSE) fi
 
 ## 💬 Contact
 
-Have questions or feedback? 
+Have questions or feedback?
 
 - **Email**: your.email@example.com
 - **GitHub**: [@yourusername](https://github.com/yourusername)
