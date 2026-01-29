@@ -38,7 +38,7 @@ export function TasksSection() {
 
   return (
     <>
-      <Card className="h-full flex flex-col">
+      <Card className="h-full flex flex-col rounded-sm">
         <CardHeader>
           <CardTitle>Task Manager</CardTitle>
         </CardHeader>

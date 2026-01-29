@@ -35,13 +35,13 @@ export function ThemeSelector() {
 
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger render={<Button variant="outline" size="icon" aria-label="Select theme" className="cursor-pointer rounded-sm" />}>
+      <DropdownMenuTrigger render={<Button variant="outline" size="icon" aria-label="Select theme" className="rounded-sm" />}>
         <Palette className="h-[1.2rem] w-[1.2rem]" />
         <span className="sr-only">Select theme</span>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-[280px] rounded-sm">
-      <DropdownMenuGroup>
-        <DropdownMenuLabel>Choose Theme</DropdownMenuLabel>
+        <DropdownMenuGroup>
+          <DropdownMenuLabel>Choose Theme</DropdownMenuLabel>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
         <div className="p-2 space-y-2">

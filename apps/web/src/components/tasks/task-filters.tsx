@@ -9,7 +9,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { Filter, Plus, Settings } from 'lucide-react';
+import { Check, Filter, Palette, Plus, Settings } from 'lucide-react';
 import type { Group } from '@/types/task';
 
 interface TaskFiltersProps {
@@ -39,12 +39,10 @@ export function TaskFilters({
     <div className="flex flex-wrap items-center justify-between gap-2 mb-4">
       <div className="flex flex-wrap items-center gap-2">
         <DropdownMenu>
-          {
-            <DropdownMenuTrigger render={<Button variant="outline" size="sm">
-              <Filter className="mr-2 h-4 w-4" />
-              {getFilterLabel()}
-            </Button>} />
-          }
+          <DropdownMenuTrigger render={<Button variant="outline" size="sm" aria-label="Select theme" className="rounded-sm" />}>
+            <Filter className="h-[1.2rem] w-[1.2rem]" />
+            {getFilterLabel()}
+          </DropdownMenuTrigger>
           <DropdownMenuContent align="start">
             <DropdownMenuLabel>Filter Tasks</DropdownMenuLabel>
             <DropdownMenuSeparator />
@@ -87,12 +85,13 @@ export function TaskFilters({
             variant="ghost"
             size="sm"
             onClick={onManageGroups}
+            className="rounded-sm"
           >
             <Settings className="mr-2 h-4 w-4" />
             Groups
           </Button>
         )}
-        <Button size="sm" onClick={onAddTask}>
+        <Button size="sm" onClick={onAddTask} className="rounded-sm">
           <Plus className="mr-2 h-4 w-4" />
           Add Task
         </Button>

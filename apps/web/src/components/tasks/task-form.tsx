@@ -12,6 +12,9 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { Plus, ChevronDown } from 'lucide-react';
 import type { Group } from '@/types/task';
+import z from 'zod';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
 
 interface TaskFormProps {
   groups: Group[];
@@ -21,6 +24,12 @@ interface TaskFormProps {
   defaultGroupId?: string | null;
 }
 
+const formSchema = z.object({
+  title: z.string().min(1, { message: 'Title is required' }).max(200, { message: 'Title is too long (max 200 characters)' }),
+  groupId: z.string().nullable(),
+});
+type FormValues = z.infer<typeof formSchema>;
+
 export function TaskForm({
   groups,
   onSubmit,
@@ -28,53 +37,38 @@ export function TaskForm({
   initialGroupId = null,
   defaultGroupId = null,
 }: TaskFormProps) {
-  const [title, setTitle] = useState('');
-  const [selectedGroupId, setSelectedGroupId] = useState<string | null>(
-    initialGroupId || defaultGroupId
-  );
-  const [error, setError] = useState('');
-
-  const selectedGroup = groups.find((g) => g.id === selectedGroupId);
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    const trimmedTitle = title.trim();
-
-    if (!trimmedTitle) {
-      setError('Task title is required');
-      return;
-    }
-
-    if (trimmedTitle.length > 200) {
-      setError('Title is too long (max 200 characters)');
-      return;
-    }
-
-    setError('');
-    onSubmit(trimmedTitle, selectedGroupId);
-    setTitle('');
-    setSelectedGroupId(defaultGroupId);
+  const form = useForm<FormValues>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      title: '',
+      groupId: initialGroupId ? initialGroupId : defaultGroupId ? defaultGroupId : null,
+    },
+  });
+  const handleSubmit = (data: FormValues) => {
+    onSubmit(data.title, data.groupId);
   };
 
+  const title = form.watch('title');
+  const groupId = form.watch('groupId');
+  const selectedGroup = groups.find((g) => g.id === groupId);
+
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
+    <form onSubmit={form.handleSubmit(handleSubmit)} className="space-y-4">
       <div className="space-y-2">
         <Label htmlFor="task-title">Task Title</Label>
         <Input
           id="task-title"
           value={title}
-          onChange={(e) => {
-            setTitle(e.target.value);
-            setError('');
-          }}
           placeholder="Enter task title..."
           autoFocus
-          aria-invalid={!!error}
-          aria-describedby={error ? 'task-title-error' : undefined}
+          aria-invalid={!!form.formState.errors.title}
+          aria-describedby={form.formState.errors.title ? 'task-title-error' : undefined}
+          className='rounded-sm'
+          {...form.register('title')}
         />
-        {error && (
+        {form.formState.errors.title && (
           <p id="task-title-error" className="text-sm text-destructive" role="alert">
-            {error}
+            {form.formState.errors.title.message}
           </p>
         )}
       </div>
@@ -86,8 +80,8 @@ export function TaskForm({
             <DropdownMenuTrigger render={<Button
               type="button"
               variant="outline"
-              className="w-full justify-between"
-            >
+              className="w-full justify-between rounded-sm"
+            />}>
               <span className="flex items-center gap-2">
                 {selectedGroup ? (
                   <>
@@ -102,16 +96,16 @@ export function TaskForm({
                 )}
               </span>
               <ChevronDown className="h-4 w-4" />
-            </Button>}/>
+            </DropdownMenuTrigger>
           }
           <DropdownMenuContent className="w-56">
-            <DropdownMenuItem onClick={() => setSelectedGroupId(null)}>
+            <DropdownMenuItem onClick={() => form.setValue('groupId', null)}>
               No group
             </DropdownMenuItem>
             {groups.map((group) => (
               <DropdownMenuItem
                 key={group.id}
-                onClick={() => setSelectedGroupId(group.id)}
+                onClick={() => form.setValue('groupId', group.id)}
               >
                 <span className="flex items-center gap-2">
                   <span
@@ -128,15 +122,15 @@ export function TaskForm({
 
       <div className="flex gap-2 justify-end">
         {onCancel && (
-          <Button type="button" variant="outline" onClick={onCancel}>
+          <Button type="button" variant="outline" onClick={onCancel} className='rounded-sm'>
             Cancel
           </Button>
         )}
-        <Button type="submit">
+        <Button type="submit" className='rounded-sm'>
           <Plus className="mr-2 h-4 w-4" />
           Add Task
         </Button>
       </div>
-    </form>
+    </form >
   );
 }

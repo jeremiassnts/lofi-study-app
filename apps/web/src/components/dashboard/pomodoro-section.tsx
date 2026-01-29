@@ -13,7 +13,7 @@ export function PomodoroSection() {
 
   return (
     <>
-      <Card className="h-full min-h-0 flex flex-col rounded-sm">
+      <Card className="min-h-0 flex flex-col rounded-sm">
         <CardHeader className="shrink-0">
           <CardTitle>Pomodoro Timer</CardTitle>
         </CardHeader>

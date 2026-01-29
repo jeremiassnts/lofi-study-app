@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useSyncExternalStore } from 'react';
+import { useEffect, useState, useSyncExternalStore } from 'react';
 import { getItem, setItem } from '@/lib/storage';
 import { themes, getThemeById, DEFAULT_THEME_ID } from '@/lib/themes.config';
 
@@ -23,10 +23,9 @@ function subscribeToTheme(listener: () => void) {
  * Custom hook for managing multi-theme switching
  *
  * Handles:
- * - Loading theme from localStorage (via useSyncExternalStore, no setState in effect)
+ * - Loading theme from localStorage (useSyncExternalStore)
  * - Applying theme via CSS custom properties
- * - Persisting theme selection
- * - Smooth theme transitions
+ * - mounted: false on server and first client render to avoid hydration mismatch (Radix injects attributes on client)
  */
 export function useThemeSwitcher() {
   const currentThemeId = useSyncExternalStore(
@@ -34,9 +33,18 @@ export function useThemeSwitcher() {
     getThemeSnapshot,
     () => DEFAULT_THEME_ID,
   );
+  const [mounted, setMounted] = useState(false);
+
+  // Set mounted after hydration so server and first client render match (placeholder only)
+  useEffect(() => {
+    /* eslint-disable react-hooks/set-state-in-effect -- avoid hydration mismatch with Radix dropdown */
+    setMounted(true);
+    /* eslint-enable react-hooks/set-state-in-effect */
+  }, []);
 
   // Apply theme to CSS variables
   useEffect(() => {
+    if (!mounted) return;
     const theme = getThemeById(currentThemeId);
     if (!theme) return;
 
@@ -76,7 +84,7 @@ export function useThemeSwitcher() {
     root.style.setProperty('--sidebar-ring', colors.sidebarRing);
 
     setItem(THEME_STORAGE_KEY, currentThemeId);
-  }, [currentThemeId]);
+  }, [currentThemeId, mounted]);
 
   const setTheme = (themeId: string) => {
     if (getThemeById(themeId)) {
@@ -86,9 +94,6 @@ export function useThemeSwitcher() {
   };
 
   const currentTheme = getThemeById(currentThemeId) || themes[0];
-
-  // useSyncExternalStore returns correct value on first client render, so no "mounted" delay needed
-  const mounted = typeof window !== 'undefined';
 
   return {
     themes,

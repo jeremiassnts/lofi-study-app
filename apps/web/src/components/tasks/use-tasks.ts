@@ -13,31 +13,25 @@ const DEFAULT_GROUPS: Group[] = [
   { id: 'default', name: 'General', color: '#6366f1' },
 ];
 
-function getInitialTasks(): Task[] {
-  if (typeof window === 'undefined') return [];
-  return getItem<Task[]>(STORAGE_KEY_TASKS) ?? [];
-}
-
-function getInitialGroups(): Group[] {
-  if (typeof window === 'undefined') return DEFAULT_GROUPS;
-  const saved = getItem<Group[]>(STORAGE_KEY_GROUPS);
-  return saved && saved.length > 0 ? saved : DEFAULT_GROUPS;
-}
-
 export function useTasks() {
-  const [tasks, setTasks] = useState<Task[]>(getInitialTasks);
-  const [groups, setGroups] = useState<Group[]>(getInitialGroups);
+  const [tasks, setTasks] = useState<Task[]>(() => []);
+  const [groups, setGroups] = useState<Group[]>(() => DEFAULT_GROUPS);
   const [filter, setFilter] = useState<string>('all');
-  const isLoading = typeof window === 'undefined';
+  const [isLoading, setIsLoading] = useState(true);
 
-  // Ensure default groups are persisted when none in storage (client-only)
+  // Load from storage after mount (same initial render on server and client to avoid hydration mismatch)
   useEffect(() => {
-    if (typeof window === 'undefined') return;
-    const saved = getItem<Group[]>(STORAGE_KEY_GROUPS);
-    if (!saved || saved.length === 0) {
+    /* eslint-disable react-hooks/set-state-in-effect -- hydrate from localStorage after mount */
+    const savedTasks = getItem<Task[]>(STORAGE_KEY_TASKS);
+    const savedGroups = getItem<Group[]>(STORAGE_KEY_GROUPS);
+    if (savedTasks) setTasks(savedTasks);
+    if (savedGroups && savedGroups.length > 0) setGroups(savedGroups);
+    if (!savedGroups || savedGroups.length === 0) {
       const ok = setItem(STORAGE_KEY_GROUPS, DEFAULT_GROUPS);
       if (!ok) toast.error('Could not save groups. Storage may be full or disabled.');
     }
+    setIsLoading(false);
+    /* eslint-enable react-hooks/set-state-in-effect */
   }, []);
 
   // Sync tasks to storage whenever they change

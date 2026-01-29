@@ -73,6 +73,7 @@ export function GroupManager({
               <Label>Group Name</Label>
               <Input
                 value={newGroupName}
+                className='rounded-sm'
                 onChange={(e) => setNewGroupName(e.target.value)}
                 placeholder="Enter group name..."
                 onKeyDown={(e) => {
@@ -91,21 +92,16 @@ export function GroupManager({
                     key={color}
                     type="button"
                     onClick={() => setSelectedColor(color)}
-                    className={`w-8 h-8 rounded-full border-2 transition-all ${
-                      selectedColor === color
-                        ? 'border-foreground scale-110'
-                        : 'border-transparent hover:scale-105'
-                    }`}
+                    className={`w-8 h-8 rounded-full border-2 transition-all ${selectedColor === color
+                      ? 'border-foreground scale-110'
+                      : 'border-transparent hover:scale-105'
+                      }`}
                     style={{ backgroundColor: color }}
                     aria-label={`Select color ${color}`}
                   />
                 ))}
               </div>
             </div>
-
-            <Button onClick={handleAddGroup} className="w-full">
-              Add Group
-            </Button>
           </div>
 
           {/* Existing Groups */}
@@ -148,9 +144,12 @@ export function GroupManager({
           )}
         </div>
 
-        <DialogFooter>
-          <Button variant="outline" onClick={() => onOpenChange(false)}>
+        <DialogFooter className="flex gap-0 justify-end">
+          <Button variant="outline" onClick={() => onOpenChange(false)} className='rounded-sm'>
             Close
+          </Button>
+          <Button onClick={handleAddGroup} className="rounded-sm">
+            Add Group
           </Button>
         </DialogFooter>
       </DialogContent>
