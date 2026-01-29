@@ -13,7 +13,7 @@ export function PomodoroSection() {
 
   return (
     <>
-      <Card className="h-full min-h-0 flex flex-col">
+      <Card className="h-full min-h-0 flex flex-col rounded-sm">
         <CardHeader className="shrink-0">
           <CardTitle>Pomodoro Timer</CardTitle>
         </CardHeader>
@@ -26,7 +26,7 @@ export function PomodoroSection() {
             isBreak={pomodoro.isBreak}
             justCompleted={pomodoro.justCompleted}
           />
-          
+
           <TimerControls
             isRunning={pomodoro.isRunning}
             isPaused={pomodoro.isPaused}
@@ -37,6 +37,7 @@ export function PomodoroSection() {
             onReset={pomodoro.reset}
             onStartBreak={pomodoro.startBreak}
             onOpenSettings={() => setSettingsOpen(true)}
+            lastState={pomodoro.lastState}
           />
         </CardContent>
       </Card>

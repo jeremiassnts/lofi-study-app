@@ -25,6 +25,7 @@ export function usePomodoro() {
   const [justCompleted, setJustCompleted] = useState(false);
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
   const notificationPermission = useRef<NotificationPermission>('default');
+  const [lastState, setLastState] = useState<TimerState | null>(null);
 
   // Request notification permission on mount (no setState)
   useEffect(() => {
@@ -80,6 +81,7 @@ export function usePomodoro() {
     }
 
     setJustCompleted(true);
+    setLastState(state);
 
     if (state === 'running' && config.autoStartBreak) {
       setState('break');
@@ -142,6 +144,7 @@ export function usePomodoro() {
    */
   const reset = useCallback(() => {
     setState('idle');
+    setLastState(null);
     setTimeRemaining(config.focusDuration * 60);
   }, [config]);
 
@@ -160,7 +163,7 @@ export function usePomodoro() {
     const updated = { ...config, ...newConfig };
     setConfig(updated);
     setItem('pomodoro-config', updated);
-    
+
     // Reset timer if idle
     if (state === 'idle') {
       setTimeRemaining(updated.focusDuration * 60);
@@ -180,8 +183,8 @@ export function usePomodoro() {
    * Calculates progress percentage
    */
   const getProgress = useCallback((): number => {
-    const total = state === 'break' 
-      ? config.breakDuration * 60 
+    const total = state === 'break'
+      ? config.breakDuration * 60
       : config.focusDuration * 60;
     return ((total - timeRemaining) / total) * 100;
   }, [state, timeRemaining, config]);
@@ -195,6 +198,7 @@ export function usePomodoro() {
 
   return {
     state,
+    lastState,
     timeRemaining,
     config,
     justCompleted,

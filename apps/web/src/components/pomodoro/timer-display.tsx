@@ -87,7 +87,7 @@ export function TimerDisplay({
         {/* Pulse ring when running — subtle */}
         {isRunning && (
           <div
-            className="absolute inset-0 rounded-full border-2 border-primary animate-ping opacity-20"
+            className="absolute inset-0 rounded-full border-2 border-primary animate-ping opacity-20 z-0"
             aria-hidden
           />
         )}

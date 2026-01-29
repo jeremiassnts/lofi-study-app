@@ -135,6 +135,7 @@ export function TimerSettings({
             type="button"
             variant="ghost"
             onClick={handleReset}
+            className='rounded-sm'
           >
             Reset to Default
           </Button>
@@ -143,10 +144,11 @@ export function TimerSettings({
               type="button"
               variant="outline"
               onClick={() => onOpenChange(false)}
+              className='rounded-sm'
             >
               Cancel
             </Button>
-            <Button type="submit" onClick={handleSave}>
+            <Button type="submit" onClick={handleSave} className='rounded-sm'>
               Save Changes
             </Button>
           </div>
