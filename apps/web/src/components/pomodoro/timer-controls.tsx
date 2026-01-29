@@ -2,7 +2,7 @@
 
 import { Button } from '@/components/ui/button';
 import type { TimerState } from '@/types/pomodoro';
-import { Play, Pause, RotateCcw, Coffee, Settings } from 'lucide-react';
+import { Play, Pause, RotateCcw, Settings } from 'lucide-react';
 
 interface TimerControlsProps {
   isRunning: boolean;

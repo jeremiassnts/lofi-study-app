@@ -9,7 +9,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { Check, Filter, Palette, Plus, Settings } from 'lucide-react';
+import { Filter, Plus, Settings } from 'lucide-react';
 import type { Group } from '@/types/task';
 
 interface TaskFiltersProps {
